@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace HourlyRate.Data.Models
 {
@@ -34,28 +35,26 @@ namespace HourlyRate.Data.Models
         public decimal Price { get; set; }
         public string ClientName { get; set; }
         public string Title { get; set; }
-
-
-        public static CreateBookingResult Error(string text)
-        {
-            return new CreateBookingResult()
-                   {
-                       ErrorText=text,
-                       IsSuccess = false
-                   };
-        }
-
-
+        public int Id { get; set; }
         public static BookingResult FromBooking(RealtyBooking booking)
         {
             return new BookingResult()
                    {
+                       Id = booking.Id,
                        From = booking.From,
                        Price = booking.Price,
                        Title = booking.Object.Title,
                        To = booking.To,
-                       ClientName = booking.Client.Name
+                       ClientName = booking.Client.Name,
+                       Image = booking.Object.Images.OrderByDescending(i=>i.Priority).FirstOrDefault()?.Url,
+                       Description = booking.Object.Description
                    };
         }
+
+
+        public string Description { get; set; }
+
+
+        public string Image { get; set; }
     }
 }

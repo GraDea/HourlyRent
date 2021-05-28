@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@model IList<HourlyRate.Data.Models.BookingResult>
+
+@{
+    ViewBag.Title = "ЛК арендатора";
+    Layout = "_Layout";
+}
+
+<h2>Список объектов</h2>
+
+<div id="list">
+    @{
+        foreach (var booking in Model)
+        {
+            <div>
+                <div>
+                    <div>
+                        <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
+                        <div class="Title">@booking.Title</div>
+                    </div>
+                    <div>
+                        <div class="From">@booking.From</div>
+                        <div class="To">@booking.To</div>
+                    </div>
+                    <div class="Price">@booking.Price</div>
+                    <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@booking.Id" enctype = "multipart/form-data" method="post">
+                            <input type="submit" value="Отменить" />
+                        </form>
+                </div>
+            </div>
+        }
+    }
+</div>
