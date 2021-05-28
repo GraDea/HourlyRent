@@ -26,4 +26,36 @@ namespace HourlyRate.Data.Models
                    };
         }
     }
+    
+    public class BookingResult
+    {
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public decimal Price { get; set; }
+        public string ClientName { get; set; }
+        public string Title { get; set; }
+
+
+        public static CreateBookingResult Error(string text)
+        {
+            return new CreateBookingResult()
+                   {
+                       ErrorText=text,
+                       IsSuccess = false
+                   };
+        }
+
+
+        public static BookingResult FromBooking(RealtyBooking booking)
+        {
+            return new BookingResult()
+                   {
+                       From = booking.From,
+                       Price = booking.Price,
+                       Title = booking.Object.Title,
+                       To = booking.To,
+                       ClientName = booking.Client.Name
+                   };
+        }
+    }
 }

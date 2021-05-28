@@ -5,6 +5,7 @@ using HourlyRate.Data;
 using HourlyRate.Data.Models;
 using HourlyRate.Migrations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HourlyRate.Controllers
 {
@@ -18,9 +19,16 @@ namespace HourlyRate.Controllers
             this.context = context;
         }
         [HttpGet("{id}")]
-        public ActionResult<RealtyBooking> GetBooking(int id)
+        public ActionResult<List<BookingResult>> GetBooking(int id)
         {
-            return null;//this.context.Objects.FirstOrDefault(p => p.Id == id);
+            var result = new List<BookingResult>();
+            var bookings =  this.context.Bookings.Include(b=>b.Object).Include(b=>b.Client)
+                       .Where(p=>p.ObjectId == id).ToList();
+            foreach (var booking in bookings)
+            {
+                result.Add(BookingResult.FromBooking(booking));
+            }
+            return result;
         }
         
         [HttpDelete("{id}")]
