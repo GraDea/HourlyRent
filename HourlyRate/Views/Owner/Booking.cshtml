@@ -1,0 +1,26 @@
+﻿@model HourlyRate.Data.Models.BookingResult
+
+@{
+    ViewBag.Title = "ЛК арендатора";
+    Layout = "_Layout";
+}
+
+<div>
+    <div>
+        <div>
+            <h3>Заказ №@Model.Id</h3>
+            <div>
+                <img style="width: 150px;" src="@Model.Image" alt="фото объекта">
+                <div class="Title">@Model.Title</div>
+            </div>
+            <div>
+                <div class="From">@Model.From.ToString("yyyy MMMM dd hh:mm")</div>
+                <div class="To">@Model.To.ToString("yyyy MMMM dd hh:mm")</div>
+            </div>
+            <div class="Price">@Model.Price</div>
+            <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@Model.Id" enctype="multipart/form-data" method="post">
+                <input type="submit" value="Отменить"/>
+            </form>
+        </div>
+    </div>
+</div>
