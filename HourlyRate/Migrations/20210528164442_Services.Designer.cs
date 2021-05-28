@@ -4,14 +4,16 @@ using HourlyRate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HourlyRate.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210528164442_Services")]
+    partial class Services
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,38 +468,31 @@ namespace HourlyRate.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Title = "Сцена"
+                            Id = 1
                         },
                         new
                         {
-                            Id = 2,
-                            Title = "Бар"
+                            Id = 2
                         },
                         new
                         {
-                            Id = 3,
-                            Title = "Детская зона"
+                            Id = 3
                         },
                         new
                         {
-                            Id = 4,
-                            Title = "Велком-зона"
+                            Id = 4
                         },
                         new
                         {
-                            Id = 5,
-                            Title = "Клининг"
+                            Id = 5
                         },
                         new
                         {
-                            Id = 6,
-                            Title = "Кейтеринг"
+                            Id = 6
                         },
                         new
                         {
-                            Id = 7,
-                            Title = "Диджей"
+                            Id = 7
                         });
                 });
 

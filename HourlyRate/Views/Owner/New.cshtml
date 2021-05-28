@@ -1,0 +1,18 @@
+@model RealEstateObject
+
+@{
+    ViewBag.Title = "Добавление объекта";
+    Layout = "_Layout";
+}
+
+<h2>Добавление объекта</h2>
+<form method="post">
+    <div>
+        <span>Название</span>
+        <div>@Html.TextBoxFor(x => x.Title)</div>
+    </div>
+    <div><span>Описание</span>
+        <div>@Html.TextAreaFor(x => x.Description)</div>
+    </div>
+    <input type="submit" value="Добавить"/>
+</form>

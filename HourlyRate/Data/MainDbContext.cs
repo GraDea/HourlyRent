@@ -58,12 +58,30 @@ namespace HourlyRate.Data
                         .HasMany(s => s.AvailableEventTypes)
                         .WithMany(t=>t.Objects);
             
+            modelBuilder.Entity<Service>()
+                        .ToTable("Services")
+                        .HasKey(s => s.Id);
+            
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.Services)
+                        .WithMany(t=>t.Objects);
+            
             modelBuilder.Entity<EventType>().HasData(
                     new EventType {Id=1,Name = "Митап"},
                     new EventType {Id=2,Name = "Хакатон"},
                     new EventType {Id=3,Name = "Конференция"},
                     new EventType {Id=4,Name = "Мастер-класс"}
                 );
+            
+            modelBuilder.Entity<Service>().HasData(
+                new Service {Id=1,Title = "Сцена"},
+                new Service {Id=2,Title = "Бар"},
+                new Service {Id=3,Title = "Детская зона"},
+                new Service {Id=4,Title = "Велком-зона"},
+                new Service {Id=5,Title = "Клининг"},
+                new Service {Id=6,Title = "Кейтеринг"},
+                new Service {Id=7,Title = "Диджей"}
+            );
             
             modelBuilder.Entity<RealtyBooking>().ToTable("Bookings").HasKey(s => s.Id);
 
@@ -73,10 +91,11 @@ namespace HourlyRate.Data
                                                             Description = "Легко разместит 150-200 человек театральной рассадкой, а проектор, предназначенный специально для светлых помещений четко и ярко продемонстрирует все подготовленные презентационные материалы.", 
                                                             Title = "Белый зал", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЮЗАО",
+                                                            Region = "ЦАО",
                                                             Rating = 5,
                                                             Capacity = 20 , 
-                                                            TotalSpace = 150
+                                                            TotalSpace = 150,
+                                                            Address = "Моховая, д. 12"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -87,7 +106,8 @@ namespace HourlyRate.Data
                                                             Region = "ВАО",
                                                             Rating = 5, 
                                                             Capacity = 60, 
-                                                            TotalSpace = 78
+                                                            TotalSpace = 78,
+                                                            Address = "Измайловская, д. 1"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -95,10 +115,11 @@ namespace HourlyRate.Data
                                                             Description = "Новейший лофт в самом центре Москвы с отдельным парадным входом и панорамными окнами. Специально построен для качественного и комфортного проведения клиентских мероприятий любых форматов.", 
                                                             Title = "PLART", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "САО", 
                                                             Rating = 5, 
                                                             Capacity = 20, 
-                                                            TotalSpace = 50
+                                                            TotalSpace = 50,
+                                                            Address = "Изумрудная д. 23"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -111,7 +132,9 @@ namespace HourlyRate.Data
                                                             Region = "ЗАО", 
                                                             Rating = 5, 
                                                             Capacity = 20, 
-                                                            TotalSpace = 50
+                                                            TotalSpace = 50,
+                                                            Address = "Митинское шоссе, д. 23"
+                                                            
                                                         },
                                                         new RealtyObject
                                                         {
@@ -119,10 +142,11 @@ namespace HourlyRate.Data
                                                             Description = "Жан Бодрийяр утверждал, что зеркало придает пространству завершенность... А мы придаем завершенность Вашему празднику", 
                                                             Title = "Арт-пространство в Измаильском кремле", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "ЮЗАО", 
                                                             Rating = 5, 
                                                             Capacity = 50, 
-                                                            TotalSpace = 110
+                                                            TotalSpace = 110,
+                                                            Address = "Большая Черемушкинская, д. 5"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -130,10 +154,11 @@ namespace HourlyRate.Data
                                                             Description = "Студия для виртуальных и онлайн-мероприятий с полным сопровождением. Среди наших клиентов Роскомос, Сбербанк, Тинькофф, Первый канал.", 
                                                             Title = "Duo Screen", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "ЮВАО", 
                                                             Rating = 5, 
                                                             Capacity = 50, 
-                                                            TotalSpace = 150
+                                                            TotalSpace = 150,
+                                                            Address = "Кубанская, д. 23"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -141,10 +166,11 @@ namespace HourlyRate.Data
                                                             Description = "Хотите устроить вечеринку, посиделки с друзьями за любимой видеоигрой или уединённое свидание под любимый фильм на большом экране? Добро пожаловать в антикинотеатр «Дубль Три». Бронируйте любую из трёх тематических комнат и отдыхайте так, как вам нравится!", 
                                                             Title = "Антикинотеатр \"Дубль Три\"", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "ЮЗАО", 
                                                             Rating = 5, 
                                                             Capacity = 30, 
-                                                            TotalSpace = 90
+                                                            TotalSpace = 90,
+                                                            Address = "Профсоюзная, д. 1"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -152,10 +178,11 @@ namespace HourlyRate.Data
                                                             Description = "Мы — большое, атмосферное, стильное пространство, созданное для проведения самых по истине крутых вечеринок, фотосессий, лекций, мастер-классов, дней рождения, свадеб и много другого.", 
                                                             Title = "Garden", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "ЮАО", 
                                                             Rating = 5, 
                                                             Capacity = 50, 
-                                                            TotalSpace = 230
+                                                            TotalSpace = 230,
+                                                            Address = "Нахимовский проспект, д. 44"
                                                         },
                                                         new RealtyObject
                                                         {
@@ -163,10 +190,11 @@ namespace HourlyRate.Data
                                                             Description = "Лофт-кальянная с караоке, с профессиональными концертным музоборудованием. Уютный квартирный интерьер с барной зоной, подготовленный по звуку и климату для проведения домашних концертов, караоке вечеринок, фуршетов и праздников в теплой компании с дымными кальянами.", 
                                                             Title = "Кальян-бар", 
                                                             ObjectType = ObjectType.Loft,
-                                                            Region = "ЗАО", 
+                                                            Region = "СЗАО", 
                                                             Rating = 5, 
                                                             Capacity = 20, 
-                                                            TotalSpace = 50
+                                                            TotalSpace = 50,
+                                                            Address = "Аэродромная, д. 11"
                                                         });
             
 
