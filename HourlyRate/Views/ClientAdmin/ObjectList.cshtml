@@ -12,21 +12,21 @@
     @{
         foreach (var booking in Model)
         {
-            <div>
-                <div>
-                    <h3>Заказ №@booking.Id</h3>
-                    <div>
-                        <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
-                        <div class="Title">@booking.Title</div>
-                    </div>
-                    <div>
-                        <div class="From">@booking.From.ToString("yyyy MMMM dd hh:mm")</div>
-                        <div class="To">@booking.To.ToString("yyyy MMMM dd hh:mm")</div>
-                    </div>
-                    <div class="Price">@booking.Price</div>
+            <div class="row">
+             
+                <div class="col-8">
+                    <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
+                    <span><strong>@booking.Title</strong></span>
+                    <span>@booking.Address</span>
+                    <span><em>@booking.From.ToString("dd.MM.yy hh:mm") - @booking.To.ToString("dd.MM.yy hh:mm")</em></span>
+                </div>
+                   <div class="col-3 align-self-center">
+                                    <span>@booking.Price р. (Заказ №@booking.Id) </span>   
+                                </div>
+                <div class="col-1 align-self-center">
                     <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@booking.Id" enctype="multipart/form-data" method="post">
-                        <input type="submit" value="Отменить"/>
-                    </form>
+                                            <input type="submit" class="btn btn-warning" value="Отменить"/>
+                                        </form>
                 </div>
             </div>
         }

@@ -35,6 +35,7 @@ namespace HourlyRate.Data.Models
         public decimal Price { get; set; }
         public string ClientName { get; set; }
         public string Title { get; set; }
+        public string Address { get; set; }
         public int Id { get; set; }
         public static BookingResult FromBooking(RealtyBooking booking)
         {
@@ -44,6 +45,7 @@ namespace HourlyRate.Data.Models
                        From = booking.From,
                        Price = booking.Price,
                        Title = booking.Object.Title,
+                       Address = booking.Object.Address,
                        To = booking.To,
                        ClientName = booking.Client.Name,
                        Image = booking.Object.Images.OrderByDescending(i=>i.Priority).FirstOrDefault()?.Url,
