@@ -7,14 +7,15 @@
 
 <h2>@Model.Title</h2>
 <form asp-controller="Owner" asp-action="EditObject" method="post">
+    @Html.HiddenFor(x=>x.Id)
     <div>
         <span>Название</span>
         <div>@Html.TextBoxFor(x => x.Title)</div>
     </div>
     <div><span>Описание</span>
-    <div>@Html.TextAreaFor(x=>x.Description)</div>
+        <div>@Html.TextAreaFor(x => x.Description)</div>
     </div>
-    
+
     <div class="gallery">
         <span>Фото</span>
         @{
@@ -23,5 +24,6 @@
                 <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
             }}
     </div>
+    <input type="submit" value="Сохранить"/>
 </form>
 <div></div>
