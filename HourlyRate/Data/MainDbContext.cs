@@ -32,6 +32,7 @@ namespace HourlyRate.Data
             
            
             modelBuilder.Entity<ObjectImage>()
+                        .ToTable("ObjectImage")
                         .HasKey(s => s.Id);
             
             modelBuilder.Entity<RealtyClient>().ToTable("Clients").HasKey(s => s.Id);
