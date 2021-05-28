@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http.Extensions
 @model RealEstateObject
 
 @{
@@ -21,8 +22,12 @@
         @{
             foreach (var photo in Model.Photos)
             {
+
                 <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
-            }}
+                <a href="" onclick="return deletePhoto(@photo.Id)">Удалить</a>
+
+            }
+        }
     </div>
     <input type="submit" value="Сохранить"/>
 </form>
@@ -33,3 +38,10 @@
     <input type="submit" value="Загрузить фото" />
 </form>
 <div></div>
+<script>
+function deletePhoto(id){
+    const url = "/Owner/Photo/" + id;
+    fetch(url, {method: 'DELETE'});
+    return true;
+    }
+</script>

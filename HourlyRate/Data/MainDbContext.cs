@@ -66,21 +66,122 @@ namespace HourlyRate.Data
                 );
             
             modelBuilder.Entity<RealtyBooking>().ToTable("Bookings").HasKey(s => s.Id);
-            
-            modelBuilder.Entity<RealtyObject>().HasData(new RealtyObject { Id=1, Description= "Уютный лофт на Бауманской", Title= "Уютный лофт на Бауманской", ObjectType = ObjectType.Loft, Region = "ЮЗАО", Rating = 5, Capacity = 100, TotalSpace = 250},
-                                                        new RealtyObject { Id=2, Description= "Уютный лофт на Бауманской", Title= "Уютный лофт на Бауманской", ObjectType = ObjectType.Loft, Region = "ВАО", Rating = 5, Capacity = 10, TotalSpace = 50},
-                                                        new RealtyObject { Id=3, Description= "Уютный лофт на Бауманской", Title= "Уютный лофт на Бауманской", ObjectType = ObjectType.Loft, Region = "ЗАО", Rating = 5, Capacity = 300, TotalSpace = 1000});
+
+            modelBuilder.Entity<RealtyObject>().HasData(new RealtyObject
+                                                        {
+                                                            Id = 1,
+                                                            Description = "Легко разместит 150-200 человек театральной рассадкой, а проектор, предназначенный специально для светлых помещений четко и ярко продемонстрирует все подготовленные презентационные материалы.", 
+                                                            Title = "Белый зал", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЮЗАО",
+                                                            Rating = 5,
+                                                            Capacity = 20 , 
+                                                            TotalSpace = 150
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 2, 
+                                                            Description = "Обустроенное и комфортабельное пространство подходит для любых бизнес- и образовательных мероприятий: бизнес встречи, презентации, конференции, тренинги, семинары, мастер классы. Любое из них пройдёт на высшем уровне.",
+                                                            Title = "Конференц-зал Восток Центр",
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ВАО",
+                                                            Rating = 5, 
+                                                            Capacity = 60, 
+                                                            TotalSpace = 78
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 3, 
+                                                            Description = "Новейший лофт в самом центре Москвы с отдельным парадным входом и панорамными окнами. Специально построен для качественного и комфортного проведения клиентских мероприятий любых форматов.", 
+                                                            Title = "PLART", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 20, 
+                                                            TotalSpace = 50
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 4, 
+                                                            Description = @"Уютный лофт с кухней для проведения праздников, съемок, мастер-классов, вечеринок. Проводим мастер-классы по готовке от именитых шеф-поваров и гастронамические баталии!
+                                                            Поможем с организацией вашего мероприятия: подбором шеф-повара, согласованием меню, подбором интерактивного наполнения праздника.
+                                                            ", 
+                                                            Title = "Петух в вине", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 20, 
+                                                            TotalSpace = 50
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 5, 
+                                                            Description = "Жан Бодрийяр утверждал, что зеркало придает пространству завершенность... А мы придаем завершенность Вашему празднику", 
+                                                            Title = "Арт-пространство в Измаильском кремле", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 50, 
+                                                            TotalSpace = 110
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 6, 
+                                                            Description = "Студия для виртуальных и онлайн-мероприятий с полным сопровождением. Среди наших клиентов Роскомос, Сбербанк, Тинькофф, Первый канал.", 
+                                                            Title = "Duo Screen", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 50, 
+                                                            TotalSpace = 150
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 7, 
+                                                            Description = "Хотите устроить вечеринку, посиделки с друзьями за любимой видеоигрой или уединённое свидание под любимый фильм на большом экране? Добро пожаловать в антикинотеатр «Дубль Три». Бронируйте любую из трёх тематических комнат и отдыхайте так, как вам нравится!", 
+                                                            Title = "Антикинотеатр \"Дубль Три\"", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 30, 
+                                                            TotalSpace = 90
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 8, 
+                                                            Description = "Мы — большое, атмосферное, стильное пространство, созданное для проведения самых по истине крутых вечеринок, фотосессий, лекций, мастер-классов, дней рождения, свадеб и много другого.", 
+                                                            Title = "Garden", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 50, 
+                                                            TotalSpace = 230
+                                                        },
+                                                        new RealtyObject
+                                                        {
+                                                            Id = 9, 
+                                                            Description = "Лофт-кальянная с караоке, с профессиональными концертным музоборудованием. Уютный квартирный интерьер с барной зоной, подготовленный по звуку и климату для проведения домашних концертов, караоке вечеринок, фуршетов и праздников в теплой компании с дымными кальянами.", 
+                                                            Title = "Кальян-бар", 
+                                                            ObjectType = ObjectType.Loft,
+                                                            Region = "ЗАО", 
+                                                            Rating = 5, 
+                                                            Capacity = 20, 
+                                                            TotalSpace = 50
+                                                        });
             
 
             modelBuilder.Entity<RealtyPrice>().HasData(
                 new RealtyPrice[] 
                 {
-                    new RealtyPrice { Id=1, ObjectId= 1, Amount = 1000 },
-                    new RealtyPrice { Id=2, ObjectId= 2, Amount = 1000 },
-                    new RealtyPrice { Id=3, ObjectId= 2, Amount = 2000, Day = 7},
-                    new RealtyPrice { Id=4, ObjectId= 2, Amount = 1000 },
-                    new RealtyPrice { Id=5, ObjectId= 3, Amount = 2000, Day = 6},
-                    new RealtyPrice { Id=6, ObjectId= 3, Amount = 3000, Day = 7, StartTime = new TimeSpan(12,0,0), EndTime = new TimeSpan(18,0,0)}
+                    new RealtyPrice { Id=1, ObjectId= 1, Amount = 5000 },
+                    new RealtyPrice { Id=2, ObjectId= 2, Amount = 5000 },
+                    new RealtyPrice { Id=3, ObjectId= 2, Amount = 6000 },
+                    new RealtyPrice { Id=4, ObjectId= 2, Amount = 4000 },
+                    new RealtyPrice { Id=5, ObjectId= 2, Amount = 3000 },
+                    new RealtyPrice { Id=6, ObjectId= 2, Amount = 10000 },
+                    new RealtyPrice { Id=7, ObjectId= 2, Amount = 8000 },
+                    new RealtyPrice { Id=8, ObjectId= 2, Amount = 2000 },
+                    new RealtyPrice { Id=9, ObjectId= 2, Amount = 1000 }
                 });
             
             modelBuilder.Entity<RealtyClient>().HasData(
@@ -91,12 +192,71 @@ namespace HourlyRate.Data
            
             
             modelBuilder.Entity<ObjectImage>().HasData(
-                new ObjectImage(){ Id = 1, RealtyObjectId = 1, Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg", Priority = 1},
-                new ObjectImage(){ Id = 2, RealtyObjectId = 2, Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg", Priority = 1},
-                new ObjectImage(){ Id = 3, RealtyObjectId = 3, Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg", Priority = 1}
+                new ObjectImage()
+                {
+                    Id = 1, 
+                    RealtyObjectId = 1,
+                    Url = "https://www.loft2rent.ru/upload_data/2021/9738/upld8RaD9b.jpg.1200x800.jpg", 
+                    Priority = 1
+                },
+                
+                new ObjectImage()
+                {
+                    Id = 2,
+                    RealtyObjectId = 2,
+                    Url = "https://www.loft2rent.ru/upload_data/2021/5926/upldevJpmc.JPG.1200x800.jpg",
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 3,
+                    RealtyObjectId = 3,
+                    Url = "https://www.loft2rent.ru/upload_data/2020/9920/upldkN6dzo.jpg.900x600.jpg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 4,
+                    RealtyObjectId = 4,
+                    Url = "https://bash.today/storage/uploads/spaces/2781/lg_c5d3d727-db85-4ee4-92e9-03028d0fb6c0.jpeg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 5,
+                    RealtyObjectId = 5,
+                    Url = "https://bash.today/storage/uploads/spaces/3822/lg_a9c3bf4c-a095-4acc-8b7c-57f95363eb2c.jpg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 6,
+                    RealtyObjectId = 6,
+                    Url = "https://bash.today/storage/uploads/spaces/3736/lg_e94a6ee7-b38f-42b4-add6-85c593ba73d5.jpg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 7,
+                    RealtyObjectId = 7,
+                    Url = "https://bash.today/storage/uploads/spaces/4072/lg_b4cc1dbe-6049-4221-8f88-ada08964eb53.jpeg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 8,
+                    RealtyObjectId = 8,
+                    Url = "https://www.loft2rent.ru/upload_data/2020/2200/upldyLoMLy.jpg.900x600.jpg", 
+                    Priority = 1
+                },
+                new ObjectImage()
+                {
+                    Id = 9,
+                    RealtyObjectId = 9,
+                    Url = "https://www.loft2rent.ru/upload_data/2020/2200/upldyLoMLy.jpg.900x600.jpg", 
+                    Priority = 1
+                }
             );
-            
-           
         }
     }
 }
