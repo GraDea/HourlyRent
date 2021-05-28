@@ -1,5 +1,8 @@
+using System;
 using HourlyRate.Data.Models;
+using HourlyRate.Migrations;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace HourlyRate.Data
 {
@@ -13,14 +16,18 @@ namespace HourlyRate.Data
 
 
         public virtual DbSet<RealtyObject> Objects { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<RealtyClient> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RealtyObject>()
                         .HasKey(s => s.Id);
-            modelBuilder.Entity<Client>().ToTable("Client").HasKey(s => s.Id);; 
+            modelBuilder.Entity<RealtyClient>().ToTable("Client").HasKey(s => s.Id);
+            
+            modelBuilder.Entity<RealtyPrice>().ToTable("Prices").HasKey(s => s.Id);
         
+            modelBuilder.Entity<RealtyBooking>().ToTable("Bookings").HasKey(s => s.Id);
+            
         
             modelBuilder.Entity<RealtyObject>().HasData(
             new RealtyObject[] 
@@ -29,6 +36,17 @@ namespace HourlyRate.Data
                 new RealtyObject { Id=2, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft},
                 new RealtyObject { Id=3, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft}
             });
+            
+            modelBuilder.Entity<RealtyPrice>().HasData(
+                new RealtyPrice[] 
+                {
+                    new RealtyPrice { Id=1, ObjectId= 1, Amount = 1000 },
+                    new RealtyPrice { Id=2, ObjectId= 2, Amount = 1000 },
+                    new RealtyPrice { Id=3, ObjectId= 2, Amount = 2000, Day = 7},
+                    new RealtyPrice { Id=4, ObjectId= 2, Amount = 1000 },
+                    new RealtyPrice { Id=5, ObjectId= 3, Amount = 2000, Day = 6},
+                    new RealtyPrice { Id=6, ObjectId= 3, Amount = 3000, Day = 7, StartTime = new TimeSpan(12,0,0), EndTime = new TimeSpan(18,0,0)}
+                });
         }
     }
 }

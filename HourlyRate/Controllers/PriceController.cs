@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace HourlyRate.Controllers
 {
     [ApiController]
-    public class ClientController : ControllerBase
+    public class PriceController : ControllerBase
     {
         private readonly MainDbContext context;
-        public ClientController(MainDbContext context)
+        public PriceController(MainDbContext context)
         {
             this.context = context;
         }
-        [HttpGet()]
+        [HttpGet("id")]
         [Route("api/[controller]")]
-        public RealtyClient GetClient()
+        public RealtyClient GetClient(int id)
         {
-            return this.context.Clients.FirstOrDefault();
+            return this.context.
         }
     }
 }
