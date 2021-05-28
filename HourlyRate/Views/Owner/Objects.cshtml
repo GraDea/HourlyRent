@@ -25,10 +25,10 @@
             <div class="container" style="">
                 <div class="row" style="margin-bottom: 16px; background-color: #F1F2F4;">
                     <div class="col-9" style="margin-bottom: 16px;">
-                        <div>@realEstateObject.Title</div>
-                        <div>@realEstateObject.Address</div>
-                        <div>@realEstateObject.Price</div>
-                        <div>@realEstateObject.Description</div>
+                        <div class="mb-1"><strong>@realEstateObject.Title</strong></div>
+                        <div class="mb-1"><strong>@realEstateObject.Address</strong></div>
+                        <div class="mb-1"><strong>@realEstateObject.Price</strong></div>
+                        <div class="mb-1">@realEstateObject.Description</div>
                         <div class="container">
                             <div class="row">
                                 @foreach (var option in realEstateObject.Options)

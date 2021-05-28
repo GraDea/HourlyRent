@@ -49,6 +49,7 @@ namespace HourlyRate.Controllers
         [HttpPost]
         public IActionResult New(RealEstateObject realEstateObject)
         {
+            
             var realObject = context.Objects.Add(Map(realEstateObject));
             context.SaveChanges();
             return RedirectToAction("Object", new {realObject.Entity.Id});
@@ -61,6 +62,9 @@ namespace HourlyRate.Controllers
                 Id = realEstateObject.Id,
                 Description = realEstateObject.Description,
                 Title = realEstateObject.Title,
+                Address = realEstateObject.Address,
+                Region = realEstateObject.Region,
+                
             };
         }
         
@@ -72,8 +76,12 @@ namespace HourlyRate.Controllers
                 Description = realObject.Description,
                 Title = realObject.Title,
                 Photos = realObject.Images.Select(x => new Photo() {Url = x.Url}).ToArray(),
-                Price = $"{realObject.Prices.FirstOrDefault()?.Amount.ToString() ?? "–"} р/сутки",
+                Price = $"{realObject.Prices.FirstOrDefault()?.Amount.ToString() ?? "–"} р /сутки",
+                PriceValue = realObject.Prices.FirstOrDefault()?.Amount ?? 0,
+                Region = realObject.Region,
                 Address = realObject.Address,
+                Capacity = realObject.Capacity,
+                TotalArea = realObject.TotalSpace,
                 Options = realObject.Services.Select(x=>x.Title).ToArray(),
             };
         }
@@ -84,6 +92,14 @@ namespace HourlyRate.Controllers
             var realObject = context.Objects.Single(x => x.Id == id);
             realObject.Description = realEstateObject.Description;
             realObject.Title = realEstateObject.Title;
+            realObject.Address = realEstateObject.Address;
+            realObject.Region = realEstateObject.Region;
+            realObject.Capacity = realEstateObject.Capacity;
+            realObject.TotalSpace = realEstateObject.TotalArea;
+
+            var price = this.context.Prices.First(c => c.ObjectId == id);
+            price.Amount = realEstateObject.PriceValue;
+            this.context.Prices.Update(price);
             context.SaveChanges();
             
             return RedirectToAction("Object", new {id});
@@ -95,19 +111,16 @@ namespace HourlyRate.Controllers
             var realtyObject  = context
                 .Objects
                 .Include(x=>x.Images)
+                .Include(x=>x.Services)
+                .Include(x=>x.Prices)
                 .SingleOrDefault(x => x.Id == id);
             if (realtyObject == null)
             {
                 return NotFound();
             }
 
-            return View(new RealEstateObject()
-            {
-                Id = id,
-                Description = realtyObject.Description,
-                Title = realtyObject.Title,
-                Photos = realtyObject.Images.Select(x=> new Photo(){Url = x.Url, Id = x.Id}).ToArray(),
-            });
+            return View(Map(realtyObject));
+
         }
 
         public async Task<IActionResult> UploadPhoto([FromRoute]int id, IFormFile file)

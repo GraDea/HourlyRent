@@ -10,18 +10,34 @@
 <form asp-controller="Owner" asp-action="Object" asp-route-id ="@Model.Id" method="post">
     @Html.HiddenFor(x=>x.Id)
     <div>
-        <span>Название</span>
-        <div>@Html.TextBoxFor(x => x.Title)</div>
+        <label>Название</label>
+        <div>@Html.TextBoxFor(x => x.Title, new{@class="form-control"})</div>
     </div>
-    <div><span>Описание</span>
-        <div>@Html.TextAreaFor(x => x.Description)</div>
+    <div><label>Адрес</label>
+        <div>@Html.TextBoxFor(x => x.Address, new{@class="form-control"})</div>
     </div>
-    <input type="submit" value="Сохранить"/>
+    <div><label>Округ</label>
+            <div>@Html.TextBoxFor(x => x.Region, new{@class="form-control"})</div>
+        </div>
+    <div><label>Описание</label>
+            <div>@Html.TextAreaFor(x => x.Description, new{@class="form-control"})</div>
+        </div>
+    <div><label>Цена</label>
+        <div>@Html.TextBoxFor(x => x.PriceValue, new{@type = "number", min=100, @class="form-control"})</div>
+    </div>
+    <div><label>Площадь</label>
+        <div>@Html.TextBoxFor(x => x.TotalArea, new{@type = "number", @class="form-control"})</div>
+    </div>
+    <div><label>Вместимость</label>
+            <div>@Html.TextBoxFor(x => x.Capacity, new{@type = "number", @class="form-control"})</div>
+        </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary mt-2"/>
 </form>
 
 <form asp-controller="Owner" asp-action="UploadPhoto" asp-route-id="@Model.Id" enctype = "multipart/form-data" method="post">
     <div class="gallery">
-        <span>Фото</span>
+        <label>Фото</label>
         <div class="container">
             <div class="row">
         @{
@@ -30,7 +46,7 @@
                     <div class="col photo" id="@photo.Id">
     
                     <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
-                    <a href="" onclick="return deletePhoto(@photo.Id)">Удалить</a>
+                    <a href="" onclick="return deletePhoto(@photo.Id)" class="btn btn-light">Удалить</a>
                     </div>
     
                 }
@@ -41,7 +57,7 @@
     
     <div>Выберите фото</div>
     <input name="file" type="file">
-    <input type="submit" value="Загрузить фото" />
+    <input type="submit"   class="btn btn-light" value="Загрузить фото" />
 </form>
 <div></div>
 <script>

@@ -14,7 +14,11 @@ namespace HourlyRate.Models
 
         public string ThumbnailUrl => Photos.FirstOrDefault()?.Url;
         public string Address { get; set; }
+        public string Region { get; set; }
         public string Price { get; set; }
+        public int Capacity { get; set; }
+        public double TotalArea { get; set; }
+        public decimal PriceValue{ get; set; }
         public IEnumerable<string> Options { get; set; }
     }
 
