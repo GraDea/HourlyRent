@@ -1,6 +1,5 @@
 using System;
 using HourlyRate.Data.Models;
-using HourlyRate.Migrations;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,8 +9,8 @@ namespace HourlyRate.Data
     {
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
 
@@ -22,6 +21,12 @@ namespace HourlyRate.Data
         {
             modelBuilder.Entity<RealtyObject>()
                         .HasKey(s => s.Id);
+            
+           
+            modelBuilder.Entity<ObjectImage>()
+                        .HasKey(s => s.Id);
+            
+            
             modelBuilder.Entity<RealtyClient>().ToTable("Client").HasKey(s => s.Id);
             
             modelBuilder.Entity<RealtyPrice>().ToTable("Prices").HasKey(s => s.Id);
@@ -32,7 +37,7 @@ namespace HourlyRate.Data
             modelBuilder.Entity<RealtyObject>().HasData(
             new RealtyObject[] 
             {
-                new RealtyObject { Id=1, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft },
+                new RealtyObject { Id=1, Description= "TEst 1", Title= "sadas asdasdasd", ObjectType = ObjectType.Loft },
                 new RealtyObject { Id=2, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft},
                 new RealtyObject { Id=3, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft}
             });

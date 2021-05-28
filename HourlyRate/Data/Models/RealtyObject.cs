@@ -1,4 +1,6 @@
-﻿namespace HourlyRate.Data.Models
+﻿using System.Collections.Generic;
+
+namespace HourlyRate.Data.Models
 {
     public class RealtyObject
     {
@@ -9,6 +11,8 @@
         public string Title { get; set; }
         
         public ObjectType ObjectType { get; set; }
+        
+        public virtual ICollection<ObjectImage> Images { get; set; }
     }
 
     public enum ObjectType
