@@ -1,0 +1,27 @@
+@model RealEstateObject
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>@Model.Title</h2>
+<form asp-controller="Owner" asp-action="EditObject" method="post">
+    <div>
+        <span>Название</span>
+        <div>@Html.TextBoxFor(x => x.Title)</div>
+    </div>
+    <div><span>Описание</span>
+    <div>@Html.TextAreaFor(x=>x.Description)</div>
+    </div>
+    
+    <div class="gallery">
+        <span>Фото</span>
+        @{
+            foreach (var photo in Model.Photos)
+            {
+                <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
+            }}
+    </div>
+</form>
+<div></div>

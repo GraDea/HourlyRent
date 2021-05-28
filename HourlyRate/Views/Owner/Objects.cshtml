@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http.Extensions
 @model IList<RealEstateObject>
 
 @{
@@ -17,6 +18,7 @@
                 <div>
                     <div class="title">@realEstateObject.Title</div>
                     <div class="description">@realEstateObject.Description</div>
+                    <div><a href="@UriHelper.BuildRelative()">Управление</a> </div>
                 </div>
             </div>
         }
