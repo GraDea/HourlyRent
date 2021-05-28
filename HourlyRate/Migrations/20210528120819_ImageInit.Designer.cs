@@ -4,14 +4,16 @@ using HourlyRate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HourlyRate.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210528120819_ImageInit")]
+    partial class ImageInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,7 +98,7 @@ namespace HourlyRate.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RealtyObjectId")
+                    b.Property<int>("RealtyObjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -132,59 +134,6 @@ namespace HourlyRate.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HourlyRate.Data.Models.RealtyBooking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ObjectId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("ObjectId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("HourlyRate.Data.Models.RealtyClient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Ssss"
-                        });
-                });
-
             modelBuilder.Entity("HourlyRate.Data.Models.RealtyObject", b =>
                 {
                     b.Property<int>("Id")
@@ -216,6 +165,9 @@ namespace HourlyRate.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("TotalSpace")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.ToTable("Objects");
@@ -224,31 +176,60 @@ namespace HourlyRate.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "TEst 1",
+                            Capacity = 100,
+                            Description = "Уютный лофт на Бауманской",
                             ObjectType = 1,
-                            Title = "sadas asdasdasd"
+                            Rating = 5,
+                            Region = "ЮЗАО",
+                            Title = "Уютный лофт на Бауманской",
+                            TotalSpace = 250.0
                         },
                         new
                         {
                             Id = 2,
-                            Description = "TEst 1",
+                            Capacity = 10,
+                            Description = "Уютный лофт на Бауманской",
                             ObjectType = 1,
-                            Title = "asdasdasdasdas"
+                            Rating = 5,
+                            Region = "ВАО",
+                            Title = "Уютный лофт на Бауманской",
+                            TotalSpace = 50.0
                         },
                         new
                         {
                             Id = 3,
-                            Description = "TEst 1",
+                            Capacity = 300,
+                            Description = "Уютный лофт на Бауманской",
                             ObjectType = 1,
-                            Title = "asdasdasdasdas"
+                            Rating = 5,
+                            Region = "ЗАО",
+                            Title = "Уютный лофт на Бауманской",
+                            TotalSpace = 1000.0
                         });
+                });
+
+            modelBuilder.Entity("EventTypeRealtyObject", b =>
+                {
+                    b.HasOne("HourlyRate.Data.Models.EventType", null)
+                        .WithMany()
+                        .HasForeignKey("AvailableEventTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HourlyRate.Data.Models.RealtyObject", null)
+                        .WithMany()
+                        .HasForeignKey("ObjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HourlyRate.Data.Models.ObjectImage", b =>
                 {
                     b.HasOne("HourlyRate.Data.Models.RealtyObject", null)
                         .WithMany("Images")
-                        .HasForeignKey("RealtyObjectId");
+                        .HasForeignKey("RealtyObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HourlyRate.Data.Models.RealtyObject", b =>
