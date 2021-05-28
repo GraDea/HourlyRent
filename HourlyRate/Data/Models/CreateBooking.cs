@@ -13,5 +13,17 @@ namespace HourlyRate.Data.Models
     public class CreateBookingResult
     {
         public bool IsSuccess { get; set; }
+        public decimal Price { get; set; }
+        public string ErrorText { get; set; }
+
+
+        public static CreateBookingResult Error(string text)
+        {
+            return new CreateBookingResult()
+                   {
+                       ErrorText=text,
+                       IsSuccess = false
+                   };
+        }
     }
 }
