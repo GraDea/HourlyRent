@@ -8,13 +8,14 @@ namespace HourlyRate.Controllers
     {
         public IActionResult EditObject(RealEstateObject realEstateObject)
         {
-            throw new System.NotImplementedException();
+            return RedirectToAction("Object", new {id = realEstateObject.Id});
         }
 
         public IActionResult Object(int id)
         {
             return View(new RealEstateObject()
             {
+                Id = id,
                 Description =
                     @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae eleifend felis. Nam egestas nec dolor in semper. Vivamus eleifend facilisis sem, sagittis rhoncus nisi fermentum quis. Fusce vulputate, felis ut finibus porta, lorem ex bibendum sapien, id cursus felis ex dictum lorem. Aliquam erat volutpat. In eu urna dignissim, condimentum lacus non, dapibus nisi. Nullam magna justo, maximus nec dapibus in, fermentum et ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id aliquet odio.
 
@@ -22,6 +23,11 @@ namespace HourlyRate.Controllers
                 Title = "Лофт Ле Форт",
                 Photos = new[] {new Photo() {Url = "https://bc-lefort.ru/xml/Photos/317873.jpg"}}
             });
+        }
+
+        public IActionResult UploadPhoto()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
