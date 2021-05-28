@@ -44,20 +44,34 @@ namespace HourlyRate.Controllers
         {
             Expression<Func<RealtyObject, bool>> expression = c => true;
 
-            if (!string.IsNullOrEmpty(filter?.Region))
+            if (filter?.Regions != null && filter.Regions.Any())
             {
-                expression = expression.And(c => c.Region == filter.Region);
+                expression = expression.And(c => filter.Regions.Contains(c.Region));
+            }
+
+            if (filter?.Square != null)
+            {
+                Expression<Func<RealtyObject, bool>> squareExpression = c => false; 
+                foreach (var squareFilter in filter.Square)
+                {
+                    Expression<Func<RealtyObject, bool>> itemExpression = c => true;  
+                    if (squareFilter?.From.HasValue ?? false)
+                    {
+                        itemExpression = itemExpression.And(c => c.TotalSpace >= squareFilter.From);
+                    }
+            
+                    if (squareFilter?.To.HasValue ?? false)
+                    {
+                        itemExpression = itemExpression.And(c => c.TotalSpace <= squareFilter.To);
+                    }
+
+                    squareExpression = squareExpression.Or(itemExpression);
+                }
+
+                expression = expression.And(squareExpression);
             }
             
-            if (filter?.Square?.From.HasValue ?? false)
-            {
-                expression = expression.And(c => c.Capacity >= filter.Square.From);
-            }
-            
-            if (filter?.Square?.To.HasValue ?? false)
-            {
-                expression = expression.And(c => c.Capacity <= filter.Square.To);
-            }
+           
 
             if (filter?.Price?.From.HasValue ?? false)
             {
@@ -91,13 +105,13 @@ namespace HourlyRate.Controllers
 
     public class ObjectsFilter
     {
-        public SquareFilter Square { get; set; }
+        public IEnumerable<SquareFilter> Square { get; set; }
 
         public PriceFilter Price { get; set; }
         
         public DateFilter Date { get; set; }
         
-        public string Region { get; set; }
+        public IEnumerable<string> Regions { get; set; }
     }
 
     public class DateFilter
