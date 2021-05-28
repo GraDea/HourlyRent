@@ -47,11 +47,10 @@ namespace HourlyRate.Controllers
             var client = new BlobContainerClient(ConnectionString, "photos");
             var name = $"{Guid.NewGuid().ToString()}-{file.FileName}";
             var response = await client.UploadBlobAsync(name, memoryStream);
-            
-            
 
-            return Json($"{client.Uri}/{name}");
-            //return RedirectToAction("Object", new {id});
+            var url = $"{client.Uri}/{name}";
+            
+            return RedirectToAction("Object", new {id});
         }
     }
 }
