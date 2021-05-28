@@ -7,21 +7,46 @@
 }
 @Html.ActionLink("Добавить объект", "New")
 
-<h2>Список объектов</h2>
+<h2>Ваши объекты</h2>
 
 <div id="list">
     @{
         foreach (var realEstateObject in Model)
         {
-            <div>
-                <div class="photoThumb">
-                    <img src="@realEstateObject.ThumbnailUrl" alt="Фотография объекта"/></div>
-                <div>
-                    <div class="title">@realEstateObject.Title</div>
-                    <div class="description">@realEstateObject.Description</div>
-                    <div>@Html.ActionLink("Управление", "Object", "Owner", new {id = realEstateObject.Id})</div>
+            <div class="container" style="">
+                <div class="row" style="margin-bottom: 16px; background-color: #F1F2F4;">
+                    <div class="col-8">
+                        <div>@realEstateObject.Title</div>
+                        <div>@realEstateObject.Address</div>
+                        <div>@realEstateObject.Price</div>
+                        <div>@realEstateObject.Description</div>
+                        <div class="container">
+                            <div class="row">
+                                @foreach (var option in realEstateObject.Options)
+                                {
+                                    <div class="col-2 tick">@option</div>
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    @Html.ActionLink("Управление", "Object", "Owner", new {id = realEstateObject.Id})
+                                    @Html.RouteLink("Календарь", "Calendar", new {id = realEstateObject.Id})
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row" ><img style="width: 240px" src="@realEstateObject.ThumbnailUrl" alt=""/></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
     }
 </div>
+    

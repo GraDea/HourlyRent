@@ -32,6 +32,8 @@ namespace HourlyRate.Controllers
             var realtyObjects = context
                 .Objects
                 .Include(x => x.Images)
+                .Include(x=>x.Services)
+                .Include(x=>x.Prices)
                 .Select(o => Map(o)).ToArray();
             
             return View(realtyObjects);
@@ -52,7 +54,7 @@ namespace HourlyRate.Controllers
             return RedirectToAction("Object", new {realObject.Entity.Id});
         }
 
-        private RealtyObject Map(RealEstateObject realEstateObject)
+        private static RealtyObject Map(RealEstateObject realEstateObject)
         {
             return new()
             {
@@ -70,6 +72,9 @@ namespace HourlyRate.Controllers
                 Description = realObject.Description,
                 Title = realObject.Title,
                 Photos = realObject.Images.Select(x => new Photo() {Url = x.Url}).ToArray(),
+                Price = $"{realObject.Prices.FirstOrDefault()?.Amount.ToString() ?? "–"} р/сутки",
+                Address = realObject.Address,
+                Options = realObject.Services.Select(x=>x.Title).ToArray(),
             };
         }
 
@@ -141,7 +146,7 @@ namespace HourlyRate.Controllers
         }
 
         [HttpGet]
-        [Route("{controller}/object/{id}/bookings")]
+        [Route("{controller}/object/{id}/bookings", Name = "Calendar")]
         public IActionResult Calendar(int id, DateTime? date)
         {
             var dateValue = date ?? DateTime.Now;

@@ -13,6 +13,9 @@ namespace HourlyRate.Models
         public IReadOnlyCollection<Photo> Photos { get; set; }
 
         public string ThumbnailUrl => Photos.FirstOrDefault()?.Url;
+        public string Address { get; set; }
+        public string Price { get; set; }
+        public IEnumerable<string> Options { get; set; }
     }
 
     public class Photo
