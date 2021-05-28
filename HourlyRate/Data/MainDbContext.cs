@@ -7,8 +7,8 @@ namespace HourlyRate.Data
     {
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
 
