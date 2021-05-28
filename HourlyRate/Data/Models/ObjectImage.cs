@@ -7,5 +7,7 @@
         public string Url { get; set; }
 
         public int Priority { get; set; }
+        
+        public int RealtyObjectId { get; set; }
     }
 }
