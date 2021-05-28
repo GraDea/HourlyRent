@@ -7,6 +7,8 @@ namespace HourlyRate.Data
     {
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
 
@@ -17,6 +19,16 @@ namespace HourlyRate.Data
         {
             modelBuilder.Entity<RealtyObject>()
                         .HasKey(s => s.Id);
-            modelBuilder.Entity<Client>().ToTable("Client").HasKey(s => s.Id);; }
+            modelBuilder.Entity<Client>().ToTable("Client").HasKey(s => s.Id);; 
+        
+        
+            modelBuilder.Entity<RealtyObject>().HasData(
+            new RealtyObject[] 
+            {
+                new RealtyObject { Id=1, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft },
+                new RealtyObject { Id=2, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft},
+                new RealtyObject { Id=3, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft}
+            });
+        }
     }
 }
