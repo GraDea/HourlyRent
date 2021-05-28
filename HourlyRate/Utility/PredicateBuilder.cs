@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -64,54 +63,6 @@ namespace HourlyRate.Utility
             return Expression.Lambda<Func<T, TResult>>(
                 second.Body.Replace(second.Parameters[0], first.Body),
                 first.Parameters[0]);
-        }
-    }
-
-    public class ParameterRebinder : ExpressionVisitor
-    {
-        private readonly Dictionary<ParameterExpression, ParameterExpression> map;
-
-
-        public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
-        {
-            this.map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
-        }
-
-
-        public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> map, Expression exp)
-        {
-            return new ParameterRebinder(map).Visit(exp);
-        }
-
-
-        protected override Expression VisitParameter(ParameterExpression p)
-        {
-            ParameterExpression replacement;
-            if (map.TryGetValue(p, out replacement))
-            {
-                p = replacement;
-            }
-
-            return base.VisitParameter(p);
-        }
-    }
-
-    public class ReplaceVisitor : ExpressionVisitor
-    {
-        private readonly Expression from, to;
-
-
-        public ReplaceVisitor(Expression from, Expression to)
-        {
-            this.from = from;
-            this.to = to;
-        }
-
-
-        public override Expression Visit(Expression ex)
-        {
-            if (ex == from) return to;
-            else return base.Visit(ex);
         }
     }
 }

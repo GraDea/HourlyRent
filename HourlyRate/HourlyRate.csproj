@@ -17,8 +17,4 @@
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Remove="Views\Owner\Calendar.cshtml" />
-    </ItemGroup>
-
 </Project>

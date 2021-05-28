@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -9,6 +10,7 @@ using Azure.Storage.Blobs;
 using HourlyRate.Data;
 using HourlyRate.Data.Models;
 using HourlyRate.Models;
+using HourlyRate.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -137,5 +139,106 @@ namespace HourlyRate.Controllers
 
             return Json(new {Success = true});
         }
+
+        [HttpGet]
+        [Route("{controller}/object/{id}/bookings")]
+        public IActionResult Calendar(int id, DateTime? date)
+        {
+            var dateValue = date ?? DateTime.Now;
+
+            var startDate = (new DateTime(dateValue.Year, dateValue.Month, 1)).StartOfWeek(DayOfWeek.Monday);
+            var finishDate = (new DateTime(dateValue.AddMonths(1).Year, dateValue.AddMonths(1).Month, 1)).StartOfWeek(DayOfWeek.Monday).AddDays(7);
+
+
+            var allBookings = context.Bookings.ToArray();
+            
+            var bookings = context.Bookings.Include(x=>x.Client).Where(x =>
+                x.ObjectId == id 
+                && ((x.From >= startDate && x.From < finishDate) ||
+                                     (x.To >= startDate && x.To < finishDate))).ToArray();
+            var dates = new List<BookingsInDate>();
+            for (var dt = startDate; dt < finishDate; dt = dt.AddDays(1))
+            {
+                var bookingsByDate = GetBookingsByDate(bookings, dt);
+                
+                dates.Add(new BookingsInDate()
+                {
+                    Date = dt,
+                    Bookings = bookingsByDate,
+                });
+            }
+            
+            return View(dates);
+        }
+
+        private Booking[] GetBookingsByDate(RealtyBooking[] bookings, DateTime dt)
+        {
+            var result = new List<Booking>();
+            foreach (var realtyBooking in bookings)
+            {
+                if (realtyBooking.From <= dt && realtyBooking.To >= (dt.AddDays(1)))
+                {
+                    result.Add(new Booking()
+                    {
+                        Id = realtyBooking.Id,
+                        Title = realtyBooking.Client.Name,
+                        StartHour = 0,
+                        FinishHour = 24,
+                    });
+                    continue;
+                }
+
+                if (dt.AddDays(1) > realtyBooking.From && dt.AddDays(1) <= realtyBooking.To)
+                {
+                    result.Add(new Booking()
+                    {
+                        Id = realtyBooking.Id,
+                        Title = realtyBooking.Client.Name,
+                        StartHour = realtyBooking.From.Hour,
+                        FinishHour = 24,
+                    });
+                    continue;
+                }
+
+                if (dt >= realtyBooking.From && dt < realtyBooking.To)
+                {
+                    result.Add(new Booking()
+                    {
+                        Id = realtyBooking.Id,
+                        Title = realtyBooking.Client.Name,
+                        StartHour = 0,
+                        FinishHour = realtyBooking.To.Hour,
+                    });
+                    continue;
+                }
+
+                if (realtyBooking.From > dt && realtyBooking.To < (dt.AddDays(1)))
+                {
+                    result.Add(new Booking()
+                    {
+                        Id = realtyBooking.Id,
+                        Title = realtyBooking.Client.Name,
+                        StartHour = realtyBooking.From.Hour,
+                        FinishHour = realtyBooking.To.Hour,
+                    });
+                }
+            }
+
+            return result.OrderBy(x=>x.StartHour).ToArray();
+        }
+    }
+
+    public class BookingsInDate
+    {
+        public DateTime Date { get; set; }
+        public Booking[] Bookings { get; set; }
+    }
+
+    public class Booking
+    {
+        public int Id { get; set; }
+        public int StartHour { get; set; }
+        public int FinishHour { get; set; }
+        public string Title { get; set; }
     }
 }

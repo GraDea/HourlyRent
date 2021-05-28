@@ -1,0 +1,46 @@
+@model List<HourlyRate.Controllers.BookingsInDate>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Бронирования</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col"> Пн </div>
+        <div class="col"> Вт </div>
+        <div class="col"> Ср </div>
+        <div class="col"> Чт </div>
+        <div class="col"> Пт </div>
+        <div class="col"> Сб </div>
+        <div class="col"> Вс </div>
+    </div>
+    <div class="row">
+        @{
+            foreach (var dt in Model)
+            {
+                if (dt.Date.DayOfWeek == DayOfWeek.Monday)
+                {
+                    <div class="w-100"></div>
+                }
+                <div class="col" style="min-height: 150px">
+                    <span>@dt.Date.Day</span>
+                    @foreach (var booking in dt.Bookings)
+                    {
+                        <div>
+                            @Html.ActionLink($"{booking.StartHour}:00-{booking.FinishHour}:00 {booking.Title}", "Booking", new {id=booking.Id})
+                        </div>
+                    }
+
+                </div>
+
+                
+            }
+            
+            
+        }
+    </div>
+</div>
+
