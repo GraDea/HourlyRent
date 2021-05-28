@@ -18,6 +18,8 @@ namespace HourlyRate.Data
         public DbSet<RealtyPrice> Prices { get; set; }
         public DbSet<RealtyBooking> Bookings { get; set; }
 
+        public DbSet<ObjectImage> Images { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RealtyObject>()
