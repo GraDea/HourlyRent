@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HourlyRate.Data;
 using HourlyRate.Data.Models;
+using HourlyRate.Models;
 using HourlyRate.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,14 +33,14 @@ namespace HourlyRate.Controllers
 
         [HttpGet]
         [Route("api/[controller]/get-all")]
-        public async Task<IEnumerable<RealtyObject>> GetAll()
+        public async Task<IEnumerable<RealtyObjectViewModel>> GetAll()
         {
-            return await this.objects.ToListAsync();
+            return (await this.objects.ToListAsync()).Select(RealtyObjectViewModel.FromRealtyObject);
         }
         
         [HttpPost]
         [Route("api/[controller]/find")]
-        public async Task<IEnumerable<RealtyObject>> Filter(ObjectsFilter filter)
+        public async Task<IEnumerable<RealtyObjectViewModel>> Filter(ObjectsFilter filter)
         {
             Expression<Func<RealtyObject, bool>> expression = c => true;
 
@@ -76,7 +77,7 @@ namespace HourlyRate.Controllers
                 
             }
             
-            return await this.objects.Where(expression).ToListAsync();
+            return (await this.objects.Where(expression).ToListAsync()).Select(RealtyObjectViewModel.FromRealtyObject);
         }
 
 
