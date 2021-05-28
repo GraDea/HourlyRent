@@ -167,7 +167,9 @@ namespace HourlyRate.Controllers
                     Bookings = bookingsByDate,
                 });
             }
-            
+
+            var obj = this.context.Objects.First(c => c.Id == id);
+            this.ViewBag.Address = obj.Address;
             return View(dates);
         }
 

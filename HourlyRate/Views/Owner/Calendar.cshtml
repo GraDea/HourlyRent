@@ -1,32 +1,38 @@
 @model List<HourlyRate.Controllers.BookingsInDate>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Календарь бронирований";
     Layout = "_Layout";
 }
 
-<h2>Май</h2>
+<h2>Календарь бронирований</h2>
+<h4 class="mb-5">@ViewBag.Address</h4>
+<h3>Май</h3>
 
 <div class="container">
-    <div class="row">
+    <div class="row mb-2">
         <div class="col"> Пн </div>
         <div class="col"> Вт </div>
         <div class="col"> Ср </div>
         <div class="col"> Чт </div>
         <div class="col"> Пт </div>
-        <div class="col"> Сб </div>
-        <div class="col"> Вс </div>
+        <div class="col vacation-text"> Сб </div>
+        <div class="col vacation-text"> Вс </div>
     </div>
     <div class="row">
         @{
             foreach (var dt in Model)
             {
+               
                 if (dt.Date.DayOfWeek == DayOfWeek.Monday)
                 {
                     <div class="w-100"></div>
                 }
-                <div class="col" style="min-height: 150px">
-                    <span>@dt.Date.Day</span>
+
+                var isVacation = dt.Date.DayOfWeek == DayOfWeek.Sunday || dt.Date.DayOfWeek == DayOfWeek.Saturday;
+                
+                <div class="col @(isVacation ? "vacation" : "working")" style="min-height: 150px;">
+                    <span class="@(isVacation ? "vacation-text" : "")">@dt.Date.Day</span>
                     @foreach (var booking in dt.Bookings)
                     {
                         <div>

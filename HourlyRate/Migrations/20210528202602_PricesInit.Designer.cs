@@ -4,14 +4,16 @@ using HourlyRate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HourlyRate.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210528202602_PricesInit")]
+    partial class PricesInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -412,43 +414,43 @@ namespace HourlyRate.Migrations
                         {
                             Id = 3,
                             Amount = 6000m,
-                            ObjectId = 3
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 4,
                             Amount = 4000m,
-                            ObjectId = 4
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 5,
                             Amount = 3000m,
-                            ObjectId = 5
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 6,
                             Amount = 10000m,
-                            ObjectId = 6
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 7,
                             Amount = 8000m,
-                            ObjectId = 7
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 8,
                             Amount = 2000m,
-                            ObjectId = 8
+                            ObjectId = 2
                         },
                         new
                         {
                             Id = 9,
                             Amount = 1000m,
-                            ObjectId = 9
+                            ObjectId = 2
                         });
                 });
 

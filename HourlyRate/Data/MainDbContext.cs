@@ -203,13 +203,13 @@ namespace HourlyRate.Data
                 {
                     new RealtyPrice { Id=1, ObjectId= 1, Amount = 5000 },
                     new RealtyPrice { Id=2, ObjectId= 2, Amount = 5000 },
-                    new RealtyPrice { Id=3, ObjectId= 2, Amount = 6000 },
-                    new RealtyPrice { Id=4, ObjectId= 2, Amount = 4000 },
-                    new RealtyPrice { Id=5, ObjectId= 2, Amount = 3000 },
-                    new RealtyPrice { Id=6, ObjectId= 2, Amount = 10000 },
-                    new RealtyPrice { Id=7, ObjectId= 2, Amount = 8000 },
-                    new RealtyPrice { Id=8, ObjectId= 2, Amount = 2000 },
-                    new RealtyPrice { Id=9, ObjectId= 2, Amount = 1000 }
+                    new RealtyPrice { Id=3, ObjectId= 3, Amount = 6000 },
+                    new RealtyPrice { Id=4, ObjectId= 4, Amount = 4000 },
+                    new RealtyPrice { Id=5, ObjectId= 5, Amount = 3000 },
+                    new RealtyPrice { Id=6, ObjectId= 6, Amount = 10000 },
+                    new RealtyPrice { Id=7, ObjectId= 7, Amount = 8000 },
+                    new RealtyPrice { Id=8, ObjectId= 8, Amount = 2000 },
+                    new RealtyPrice { Id=9, ObjectId= 9, Amount = 1000 }
                 });
             
             modelBuilder.Entity<RealtyClient>().HasData(
