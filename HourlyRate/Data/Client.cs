@@ -1,4 +1,6 @@
-﻿namespace HourlyRate.Data
+﻿using System;
+
+namespace HourlyRate.Data
 {
     public class Client
     {

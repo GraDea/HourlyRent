@@ -1,4 +1,3 @@
-using System;
 using HourlyRate.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +11,12 @@ namespace HourlyRate.Data
 
 
         public virtual DbSet<RealtyObject> Objects { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RealtyObject>()
                         .HasKey(s => s.Id);
-        }
+            modelBuilder.Entity<Client>().ToTable("Client").HasKey(s => s.Id);; }
     }
 }
