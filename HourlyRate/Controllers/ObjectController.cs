@@ -18,7 +18,9 @@ namespace HourlyRate.Controllers
 
         private IQueryable<RealtyObject> objects => this.context.Objects
                                                         .Include(c => c.Images)
-                                                        .Include(c => c.AvailableEventTypes);
+                                                        .Include(c => c.AvailableEventTypes)
+                                                        .Include(c=>c.Prices)
+                                                        .Include(c=>c.Bookings);
 
 
         public ObjectController(MainDbContext context)
@@ -44,6 +46,35 @@ namespace HourlyRate.Controllers
             {
                 expression = expression.And(c => c.Region == filter.Region);
             }
+            
+            if (filter?.Square?.From.HasValue ?? false)
+            {
+                expression = expression.And(c => c.Capacity >= filter.Square.From);
+            }
+            
+            if (filter?.Square?.To.HasValue ?? false)
+            {
+                expression = expression.And(c => c.Capacity <= filter.Square.To);
+            }
+
+            if (filter?.Price?.From.HasValue ?? false)
+            {
+                expression = expression.And(c => c.Prices.All(p=>p.Amount >= filter.Price.From.Value));
+            }
+            
+            if (filter?.Price?.To.HasValue ?? false)
+            {
+                expression = expression.And(c => c.Prices.All(p=>p.Amount <= filter.Price.To.Value));
+            }
+
+            if (filter?.Date != null)
+            {
+                expression = expression.And(c => 
+                                                !c.Bookings.Any(p=>p.From >= filter.Date.From && p.From <= filter.Date.To)
+                                                && !c.Bookings.Any(p=>p.To >= filter.Date.From && p.To <= filter.Date.To));
+                
+            }
+            
             return await this.objects.Where(expression).ToListAsync();
         }
 
@@ -69,9 +100,9 @@ namespace HourlyRate.Controllers
 
     public class DateFilter
     {
-        public DateTime? From { get; set; }
+        public DateTime From { get; set; }
         
-        public DateTime? To { get; set; }
+        public DateTime To { get; set; }
     }
 
     public class PriceFilter

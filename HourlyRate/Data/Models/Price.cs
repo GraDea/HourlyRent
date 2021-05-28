@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HourlyRate.Data.Models
 {
@@ -10,5 +11,8 @@ namespace HourlyRate.Data.Models
         public int? Day { get; set; }
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
+        
+        [ForeignKey("ObjectId")]
+        public virtual RealtyObject Object { get; set; }
     }
 }

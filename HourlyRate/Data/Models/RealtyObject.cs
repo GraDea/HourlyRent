@@ -27,6 +27,10 @@ namespace HourlyRate.Data.Models
         public double? Lon { get; set; }
         
         public virtual ICollection<ObjectImage> Images { get; set; }
+        
+        public virtual ICollection<RealtyBooking> Bookings { get; set; }
+        
+        public virtual ICollection<RealtyPrice> Prices { get; set; }
     }
 
     public enum ObjectType

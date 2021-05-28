@@ -46,6 +46,18 @@ namespace HourlyRate.Data
                         .HasMany(s => s.AvailableEventTypes)
                         .WithMany(t=>t.Objects);
             
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.Prices)
+                        .WithOne(t=>t.Object);
+            
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.Bookings)
+                        .WithOne(t=>t.Object);
+            
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.AvailableEventTypes)
+                        .WithMany(t=>t.Objects);
+            
             modelBuilder.Entity<EventType>().HasData(
                     new EventType {Id=1,Name = "Митап"},
                     new EventType {Id=2,Name = "Хакатон"},
@@ -83,6 +95,7 @@ namespace HourlyRate.Data
                 new ObjectImage(){ Id = 2, RealtyObjectId = 2, Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg", Priority = 1},
                 new ObjectImage(){ Id = 3, RealtyObjectId = 3, Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg", Priority = 1}
             );
+            
            
         }
     }
