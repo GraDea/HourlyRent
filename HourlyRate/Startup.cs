@@ -38,7 +38,7 @@ namespace HourlyRate
             services.AddCors(options =>
                              {
                                  options.AddPolicy("AllowAnyOrigin",
-                                                   builder => builder.AllowAnyOrigin());
+                                                   builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
                              });
         }
 
