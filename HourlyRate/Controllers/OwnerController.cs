@@ -69,7 +69,7 @@ namespace HourlyRate.Controllers
                 Id = id,
                 Description = realtyObject.Description,
                 Title = realtyObject.Title,
-                Photos = realtyObject.Images.Select(x=> new Photo(){Url = x.Url}).ToArray(),
+                Photos = realtyObject.Images.Select(x=> new Photo(){Url = x.Url, Id = x.Id}).ToArray(),
             });
         }
 
@@ -94,6 +94,18 @@ namespace HourlyRate.Controllers
             await context.SaveChangesAsync();
             
             return RedirectToAction("Object", new {id});
+        }
+
+        
+        [HttpDelete]
+        public IActionResult Photo([FromRoute]int id)
+        {
+            var image = context.Images.Single(x => x.Id == id);
+            context.Images.Remove(image);
+
+            context.SaveChanges();
+
+            return Json(new {Success = true});
         }
     }
 }
