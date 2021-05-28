@@ -24,5 +24,10 @@ namespace HourlyRate.Controllers
                 Photos = new[] {new Photo() {Url = "https://bc-lefort.ru/xml/Photos/317873.jpg"}}
             });
         }
+
+        public IActionResult UploadPhoto()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
