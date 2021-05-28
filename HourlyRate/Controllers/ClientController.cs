@@ -7,16 +7,16 @@ namespace HourlyRate.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private MainDbContext Context;
+        private readonly MainDbContext context;
         public ClientController(MainDbContext context)
         {
-            this.Context = context;
+            this.context = context;
         }
         [HttpGet()]
         [Route("api/[controller]")]
         public Client GetClient()
         {
-            return this.Context.Clients.FirstOrDefault();
+            return this.context.Clients.FirstOrDefault();
         }
     }
 }
