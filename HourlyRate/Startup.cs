@@ -56,6 +56,7 @@ namespace HourlyRate
                 app.UseHsts();
             }
 
+            app.UseCors("AllowAnyOrigin");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
