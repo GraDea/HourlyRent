@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Net;
 using HourlyRate.Data;
 using HourlyRate.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HourlyRate.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
@@ -13,11 +15,11 @@ namespace HourlyRate.Controllers
         {
             this.context = context;
         }
-        [HttpGet()]
-        [Route("api/[controller]")]
-        public RealtyClient GetClient()
+        [HttpGet]
+        public ActionResult<RealtyClient> GetClient()
         {
-            return this.context.Clients.FirstOrDefault();
+            var result = this.context.Clients.FirstOrDefault();
+            return result;
         }
     }
 }

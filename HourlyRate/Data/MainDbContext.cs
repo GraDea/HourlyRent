@@ -16,6 +16,8 @@ namespace HourlyRate.Data
 
         public virtual DbSet<RealtyObject> Objects { get; set; }
         public DbSet<RealtyClient> Clients { get; set; }
+        public DbSet<RealtyPrice> Prices { get; set; }
+        public DbSet<RealtyBooking> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +29,7 @@ namespace HourlyRate.Data
                         .HasKey(s => s.Id);
             
             
-            modelBuilder.Entity<RealtyClient>().ToTable("Client").HasKey(s => s.Id);
+            modelBuilder.Entity<RealtyClient>().ToTable("Clients").HasKey(s => s.Id);
             
             modelBuilder.Entity<RealtyPrice>().ToTable("Prices").HasKey(s => s.Id);
         
@@ -51,6 +53,12 @@ namespace HourlyRate.Data
                     new RealtyPrice { Id=4, ObjectId= 2, Amount = 1000 },
                     new RealtyPrice { Id=5, ObjectId= 3, Amount = 2000, Day = 6},
                     new RealtyPrice { Id=6, ObjectId= 3, Amount = 3000, Day = 7, StartTime = new TimeSpan(12,0,0), EndTime = new TimeSpan(18,0,0)}
+                });
+            
+            modelBuilder.Entity<RealtyClient>().HasData(
+                new[] 
+                {
+                    new RealtyClient { Id=1, Name = "Ssss"}
                 });
         }
     }
