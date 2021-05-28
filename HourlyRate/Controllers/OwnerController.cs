@@ -32,6 +32,7 @@ namespace HourlyRate.Controllers
                 .Include(x => x.Images)
                 .Select(o => new RealEstateObject()
                 {
+                    Id = o.Id,
                     Description = o.Description,
                     Title = o.Title,
                     Photos = o.Images.Select(x => new Photo() {Url = x.Url}).ToArray(),
