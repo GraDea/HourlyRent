@@ -15,7 +15,7 @@
         {
             <div class="container" style="">
                 <div class="row" style="margin-bottom: 16px; background-color: #F1F2F4;">
-                    <div class="col-8">
+                    <div class="col-9" style="margin-bottom: 16px;">
                         <div>@realEstateObject.Title</div>
                         <div>@realEstateObject.Address</div>
                         <div>@realEstateObject.Price</div>
@@ -24,14 +24,14 @@
                             <div class="row">
                                 @foreach (var option in realEstateObject.Options)
                                 {
-                                    <div class="col-2 tick">@option</div>
+                                    <div class="col-md-auto tick">@option</div>
                                 }
                             </div>
                         </div>
 
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-3" style="margin-bottom: 16px;">
                         <div class="container">
                             <div class="row">
                                 <div class="col">
