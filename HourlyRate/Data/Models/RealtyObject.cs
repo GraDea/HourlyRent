@@ -22,6 +22,8 @@ namespace HourlyRate.Data.Models
         
         public int Capacity { get; set; }
         
+        public string Address { get; set; }
+        
         public double? Lat { get; set; }
         
         public double? Lon { get; set; }
@@ -31,6 +33,8 @@ namespace HourlyRate.Data.Models
         public virtual ICollection<RealtyBooking> Bookings { get; set; }
         
         public virtual ICollection<RealtyPrice> Prices { get; set; }
+        
+        public virtual ICollection<Service> Services { get; set; }
     }
 
     public enum ObjectType
