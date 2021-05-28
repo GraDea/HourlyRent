@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HourlyRate.Data;
 using HourlyRate.Data.Models;
 using HourlyRate.Migrations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HourlyRate.Controllers
 {
@@ -17,9 +19,16 @@ namespace HourlyRate.Controllers
             this.context = context;
         }
         [HttpGet("{id}")]
-        public ActionResult<RealtyBooking> GetBooking(int id)
+        public ActionResult<List<BookingResult>> GetBooking(int id)
         {
-            return this.context.Bookings.FirstOrDefault(p => p.Id == id);
+            var result = new List<BookingResult>();
+            var bookings =  this.context.Bookings.Include(b=>b.Object).Include(b=>b.Client)
+                       .Where(p=>p.ObjectId == id).ToList();
+            foreach (var booking in bookings)
+            {
+                result.Add(BookingResult.FromBooking(booking));
+            }
+            return result;
         }
         
         [HttpDelete("{id}")]
@@ -36,20 +45,42 @@ namespace HourlyRate.Controllers
         {
             var booking =  this.context.Bookings.FirstOrDefault(p => p.Id == book.ObjectId && 
                                                                      ((p.From <= book.From && p.To >= book.From) || (p.From <= book.To && p.To >= book.To)));
+            var price = this.context.Prices.FirstOrDefault(p => p.ObjectId == book.ObjectId) ;
             if (booking != null)
             {
-                return new ActionResult<CreateBookingResult>(new CreateBookingResult{IsSuccess = false});
+                return new ActionResult<CreateBookingResult>(CreateBookingResult.Error("Время занято"));
             }
+
+            if (price == null)
+            {
+                return new ActionResult<CreateBookingResult>(CreateBookingResult.Error("Цена не найдена"));
+            }
+            
+            if (book.From > book.To)
+            {
+                return new ActionResult<CreateBookingResult>(CreateBookingResult.Error("Неверные даты"));
+            }
+            
+            if ((book.To-book.From).TotalHours <0)
+            {
+                return new ActionResult<CreateBookingResult>(CreateBookingResult.Error("Менее одного часа"));
+            }
+            
             booking = new RealtyBooking()
                       {
                           ClientId = 1,
                           From = book.From,
                           To = book.To,
-                          ObjectId = book.ObjectId
+                          ObjectId = book.ObjectId,
+                          Price = (price?.Amount ?? 0) * Math.Ceiling((decimal)(book.To-book.From).TotalHours)
                       };
             this.context.Bookings.Add(booking);
             this.context.SaveChanges();
-            return new ActionResult<CreateBookingResult>(new CreateBookingResult(){IsSuccess = true});
+            return new ActionResult<CreateBookingResult>(new CreateBookingResult()
+                                                         {
+                                                             IsSuccess = true,
+                                                             Price = booking.Price
+                                                         });
         }
     }
 }

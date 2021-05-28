@@ -40,11 +40,18 @@ namespace HourlyRate.Controllers
             return View(realtyObjects);
         }
 
-        public IActionResult EditObject(RealEstateObject realEstateObject)
+        [HttpPost]
+        public IActionResult Object([FromRoute]int id, RealEstateObject realEstateObject)
         {
-            return RedirectToAction("Object", new {id = realEstateObject.Id});
+            var realObject = context.Objects.Single(x => x.Id == id);
+            realObject.Description = realEstateObject.Description;
+            realObject.Title = realEstateObject.Title;
+            context.SaveChanges();
+            
+            return RedirectToAction("Object", new {id});
         }
 
+        [HttpGet]
         public IActionResult Object(int id)
         {
             var realtyObject  = context
@@ -58,13 +65,14 @@ namespace HourlyRate.Controllers
 
             return View(new RealEstateObject()
             {
+                Id = id,
                 Description = realtyObject.Description,
                 Title = realtyObject.Title,
                 Photos = realtyObject.Images.Select(x=> new Photo(){Url = x.Url}).ToArray(),
             });
         }
 
-        public async Task<IActionResult> UploadPhoto(int id, IFormFile file)
+        public async Task<IActionResult> UploadPhoto([FromRoute]int id, IFormFile file)
         {
             await using var memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream);
@@ -76,11 +84,13 @@ namespace HourlyRate.Controllers
 
             var url = $"{client.Uri}/{name}";
 
-            context.Images.Add(new ObjectImage()
+            await context.Images.AddAsync(new ObjectImage()
             {
                 Url = url,
                 RealtyObjectId = id,
             });
+
+            await context.SaveChangesAsync();
             
             return RedirectToAction("Object", new {id});
         }
