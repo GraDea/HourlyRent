@@ -30,15 +30,45 @@ namespace HourlyRate.Controllers
             var realtyObjects = context
                 .Objects
                 .Include(x => x.Images)
-                .Select(o => new RealEstateObject()
-                {
-                    Id = o.Id,
-                    Description = o.Description,
-                    Title = o.Title,
-                    Photos = o.Images.Select(x => new Photo() {Url = x.Url}).ToArray(),
-                }).ToArray();
+                .Select(o => Map(o)).ToArray();
             
             return View(realtyObjects);
+        }
+
+        [HttpGet]
+        public IActionResult New()
+        {
+            var realEstateObject = new RealEstateObject();
+            return View(realEstateObject);
+        }
+
+        [HttpPost]
+        public IActionResult New(RealEstateObject realEstateObject)
+        {
+            var realObject = context.Objects.Add(Map(realEstateObject));
+            context.SaveChanges();
+            return RedirectToAction("Object", new {realObject.Entity.Id});
+        }
+
+        private RealtyObject Map(RealEstateObject realEstateObject)
+        {
+            return new()
+            {
+                Id = realEstateObject.Id,
+                Description = realEstateObject.Description,
+                Title = realEstateObject.Title,
+            };
+        }
+        
+        private static RealEstateObject Map(RealtyObject realObject)
+        {
+            return new RealEstateObject
+            {
+                Id = realObject.Id,
+                Description = realObject.Description,
+                Title = realObject.Title,
+                Photos = realObject.Images.Select(x => new Photo() {Url = x.Url}).ToArray(),
+            };
         }
 
         [HttpPost]

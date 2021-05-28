@@ -16,23 +16,23 @@
     <div><span>Описание</span>
         <div>@Html.TextAreaFor(x => x.Description)</div>
     </div>
-
-    <div class="gallery">
-        <span>Фото</span>
-        @{
-            foreach (var photo in Model.Photos)
-            {
-
-                <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
-                <a href="" onclick="return deletePhoto(@photo.Id)">Удалить</a>
-
-            }
-        }
-    </div>
     <input type="submit" value="Сохранить"/>
 </form>
 
 <form asp-controller="Owner" asp-action="UploadPhoto" asp-route-id="@Model.Id" enctype = "multipart/form-data" method="post">
+    <div class="gallery">
+            <span>Фото</span>
+            @{
+                foreach (var photo in Model.Photos)
+                {
+    
+                    <img style="width: 150px;" src="@photo.Url" alt="фото объекта">
+                    <a href="" onclick="return deletePhoto(@photo.Id)">Удалить</a>
+    
+                }
+            }
+        </div>
+    
     <div>Выберите фото</div>
     <input name="file" type="file">
     <input type="submit" value="Загрузить фото" />
