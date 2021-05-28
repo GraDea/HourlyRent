@@ -4,87 +4,22 @@ using HourlyRate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HourlyRate.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210528113110_ClientInitialize")]
+    partial class ClientInitialize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EventTypeRealtyObject", b =>
-                {
-                    b.Property<int>("AvailableEventTypesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ObjectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AvailableEventTypesId", "ObjectsId");
-
-                    b.HasIndex("ObjectsId");
-
-                    b.ToTable("EventTypeRealtyObject");
-                });
-
-            modelBuilder.Entity("HourlyRate.Data.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Client");
-                });
-
-            modelBuilder.Entity("HourlyRate.Data.Models.EventType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Митап"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Хакатон"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Конференция"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Мастер-класс"
-                        });
-                });
 
             modelBuilder.Entity("HourlyRate.Data.Models.ObjectImage", b =>
                 {
@@ -107,29 +42,6 @@ namespace HourlyRate.Migrations
                     b.HasIndex("RealtyObjectId");
 
                     b.ToTable("ObjectImage");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Priority = 1,
-                            RealtyObjectId = 1,
-                            Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Priority = 1,
-                            RealtyObjectId = 2,
-                            Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Priority = 1,
-                            RealtyObjectId = 3,
-                            Url = "https://www.pogostite.ru/images/887/409/0/admin/images/conference_places/397/p1ccjm3g6qol31gkf163e1o8t1vni9o.jpg"
-                        });
                 });
 
             modelBuilder.Entity("HourlyRate.Data.Models.RealtyBooking", b =>
@@ -192,26 +104,11 @@ namespace HourlyRate.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Lat")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("Lon")
-                        .HasColumnType("float");
-
                     b.Property<int>("ObjectType")
                         .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -244,11 +141,105 @@ namespace HourlyRate.Migrations
                         });
                 });
 
+            modelBuilder.Entity("HourlyRate.Data.Models.RealtyPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan?>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan?>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 1000m,
+                            ObjectId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 1000m,
+                            ObjectId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 2000m,
+                            Day = 7,
+                            ObjectId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 1000m,
+                            ObjectId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Amount = 2000m,
+                            Day = 6,
+                            ObjectId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Amount = 3000m,
+                            Day = 7,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            ObjectId = 3,
+                            StartTime = new TimeSpan(0, 12, 0, 0, 0)
+                        });
+                });
+
             modelBuilder.Entity("HourlyRate.Data.Models.ObjectImage", b =>
                 {
                     b.HasOne("HourlyRate.Data.Models.RealtyObject", null)
                         .WithMany("Images")
                         .HasForeignKey("RealtyObjectId");
+                });
+
+            modelBuilder.Entity("HourlyRate.Data.Models.RealtyBooking", b =>
+                {
+                    b.HasOne("HourlyRate.Data.Models.RealtyClient", "Client")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HourlyRate.Data.Models.RealtyObject", "Object")
+                        .WithMany()
+                        .HasForeignKey("ObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Object");
+                });
+
+            modelBuilder.Entity("HourlyRate.Data.Models.RealtyClient", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("HourlyRate.Data.Models.RealtyObject", b =>
