@@ -14,18 +14,19 @@
         {
             <div>
                 <div>
+                    <h3>Заказ №@booking.Id</h3>
                     <div>
                         <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
                         <div class="Title">@booking.Title</div>
                     </div>
                     <div>
-                        <div class="From">@booking.From</div>
-                        <div class="To">@booking.To</div>
+                        <div class="From">@booking.From.ToString("yyyy MMMM dd hh:mm")</div>
+                        <div class="To">@booking.To.ToString("yyyy MMMM dd hh:mm")</div>
                     </div>
                     <div class="Price">@booking.Price</div>
-                    <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@booking.Id" enctype = "multipart/form-data" method="post">
-                            <input type="submit" value="Отменить" />
-                        </form>
+                    <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@booking.Id" enctype="multipart/form-data" method="post">
+                        <input type="submit" value="Отменить"/>
+                    </form>
                 </div>
             </div>
         }

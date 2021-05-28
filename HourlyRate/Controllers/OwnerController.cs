@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HourlyRate.Controllers
 {
-    public class OwnerController : Controller
+    public partial class OwnerController : Controller
     {
         private readonly MainDbContext context;
         public string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=hourlyrentphotos;AccountKey=v7UBtaQSmDxQRFBY50MmOSsRL6bJgPhqpC2TQ7vx68TaigXYFvQ0+yl+Eblav28gcq0Veo2wKP0x8RVlSPu/5A==;EndpointSuffix=core.windows.net";
