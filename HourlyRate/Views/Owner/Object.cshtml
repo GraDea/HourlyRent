@@ -27,9 +27,9 @@
     <input type="submit" value="Сохранить"/>
 </form>
 
-<form asp-controller="Owner" asp-action="UploadPhoto" method="post">
+<form asp-controller="Owner" asp-action="UploadPhoto" enctype = "multipart/form-data" method="post">
     <div>Выберите фото</div>
-    <input name="image" type="file">
+    <input name="file" type="file">
     <input type="submit" value="Загрузить фото" />
 </form>
 <div></div>
