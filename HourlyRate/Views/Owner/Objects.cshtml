@@ -5,9 +5,18 @@
     ViewBag.Title = "ЛК собственника";
     Layout = "_Layout";
 }
-@Html.ActionLink("Добавить объект", "New")
 
-<h2>Ваши объекты</h2>
+<div class="container">
+    <div class="row">
+        <div class="col text-left">
+            <div class="h2">Ваши объекты</div>
+        </div>
+        <div class="col text-right" >
+            @Html.ActionLink("+ДОБАВИТЬ ОБЪЕКТ", "New")
+        </div>
+    </div>
+</div>
+
 
 <div id="list">
     @{
