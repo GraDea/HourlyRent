@@ -19,13 +19,21 @@ namespace HourlyRate.Data
         {
             modelBuilder.Entity<RealtyObject>()
                         .HasKey(s => s.Id);
+            
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.Images);
+            
+            modelBuilder.Entity<ObjectImage>()
+                        .HasKey(s => s.Id);
+            
+            
             modelBuilder.Entity<Client>().ToTable("Client").HasKey(s => s.Id);; 
         
         
             modelBuilder.Entity<RealtyObject>().HasData(
             new RealtyObject[] 
             {
-                new RealtyObject { Id=1, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft },
+                new RealtyObject { Id=1, Description= "TEst 1", Title= "sadas asdasdasd", ObjectType = ObjectType.Loft },
                 new RealtyObject { Id=2, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft},
                 new RealtyObject { Id=3, Description= "TEst 1", Title= "asdasdasdasdas", ObjectType = ObjectType.Loft}
             });
