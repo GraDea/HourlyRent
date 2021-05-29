@@ -6,6 +6,7 @@ namespace HourlyRate.Models
 {
     public class RealEstateObject
     {
+        
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -21,7 +22,7 @@ namespace HourlyRate.Models
         public decimal PriceValue{ get; set; }
         public IEnumerable<string> Options { get; set; }
         
-        public IEnumerable<Service> Services { get; set; }
+        public List<ServiceModel> Services { get; set; }
     }
 
     public class Photo
@@ -30,7 +31,7 @@ namespace HourlyRate.Models
         public string Url { get; set; }
     }
     
-    public class Service
+    public class ServiceModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

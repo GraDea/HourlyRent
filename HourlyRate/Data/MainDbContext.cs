@@ -17,6 +17,8 @@ namespace HourlyRate.Data
         public DbSet<RealtyClient> Clients { get; set; }
         public DbSet<RealtyPrice> Prices { get; set; }
         public DbSet<RealtyBooking> Bookings { get; set; }
+        public DbSet<Service> Services { get; set; }
+        
 
         public DbSet<ObjectImage> Images { get; set; }
 
@@ -27,10 +29,8 @@ namespace HourlyRate.Data
 
             modelBuilder.Entity<RealtyObject>()
                         .HasMany(s => s.Images);
-            
-            
-            
-           
+
+
             modelBuilder.Entity<ObjectImage>()
                         .ToTable("ObjectImage")
                         .HasKey(s => s.Id);

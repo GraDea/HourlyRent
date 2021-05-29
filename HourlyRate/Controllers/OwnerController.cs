@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace HourlyRate.Controllers
 {
     public partial class OwnerController : Controller
@@ -29,12 +30,13 @@ namespace HourlyRate.Controllers
 
         public IActionResult Objects()
         {
+            var services = this.context.Services.ToArray();
             var realtyObjects = context
                 .Objects
                 .Include(x => x.Images)
                 .Include(x=>x.Services)
                 .Include(x=>x.Prices)
-                .Select(o => Map(o)).ToArray();
+                .Select(o => Map(o,services)).ToArray();
             
             return View(realtyObjects);
         }
@@ -43,21 +45,59 @@ namespace HourlyRate.Controllers
         public IActionResult New()
         {
             var realEstateObject = new RealEstateObject();
+            realEstateObject.Services = this.context.Services.Select(Map).ToList();
             return View(realEstateObject);
         }
 
         [HttpPost]
         public IActionResult New(RealEstateObject realEstateObject)
         {
-            
             var realObject = context.Objects.Add(Map(realEstateObject));
+            if (realEstateObject.Services != null)
+            {
+                foreach (var service in realEstateObject.Services.Where(s=>s.IsSelected))
+                {
+                    realObject.Entity.Services.Add(Map(service));
+                }
+            }
+            realObject.Entity.Prices = new List<RealtyPrice>(){new RealtyPrice()
+                                                               {
+                                                                   Amount = 0
+                                                               }};
             context.SaveChanges();
             return RedirectToAction("Object", new {realObject.Entity.Id});
         }
 
+        private static Service Map(ServiceModel service)
+        {
+            return new Service()
+                   {
+                       Id = service.Id,
+                       Title = service.Name
+                   };
+        }
+        private static ServiceModel Map(Service service)
+        {
+            return new ServiceModel()
+                   {
+                       Id = service.Id,
+                       Name = service.Title
+                   };
+        }
+        
+        private static ServiceModel Map(Service service, bool isSelected)
+        {
+            return new ServiceModel()
+                   {
+                       Id = service.Id,
+                       Name = service.Title,
+                       IsSelected = isSelected
+                   };
+        }
+        
         private static RealtyObject Map(RealEstateObject realEstateObject)
         {
-            return new()
+            return new RealtyObject()
             {
                 Id = realEstateObject.Id,
                 Description = realEstateObject.Description,
@@ -68,7 +108,7 @@ namespace HourlyRate.Controllers
             };
         }
         
-        private static RealEstateObject Map(RealtyObject realObject)
+        private static RealEstateObject Map(RealtyObject realObject, Service[] services)
         {
             return new RealEstateObject
             {
@@ -83,13 +123,14 @@ namespace HourlyRate.Controllers
                 Capacity = realObject.Capacity,
                 TotalArea = realObject.TotalSpace,
                 Options = realObject.Services.Select(x=>x.Title).ToArray(),
+                Services = services.Select(s=>Map(s, realObject.Services.Any(srv=>srv.Id == s.Id))).ToList()
             };
         }
 
         [HttpPost]
         public IActionResult Object([FromRoute]int id, RealEstateObject realEstateObject)
         {
-            var realObject = context.Objects.Single(x => x.Id == id);
+            var realObject = context.Objects.Include(s=>s.Services).Single(x => x.Id == id);
             realObject.Description = realEstateObject.Description;
             realObject.Title = realEstateObject.Title;
             realObject.Address = realEstateObject.Address;
@@ -100,6 +141,24 @@ namespace HourlyRate.Controllers
             var price = this.context.Prices.First(c => c.ObjectId == id);
             price.Amount = realEstateObject.PriceValue;
             this.context.Prices.Update(price);
+            if (realEstateObject.Services != null)
+            {
+                foreach (var service in realObject.Services)
+                {
+                    if (realEstateObject.Services.Where(s=>s.IsSelected).All(s => s.Id != service.Id))
+                    {
+                        realObject.Services.Remove(service);
+                    }
+                }
+                
+                foreach (var service in realEstateObject.Services.Where(s=>s.IsSelected))
+                {
+                    if (realObject.Services.All(s => s.Id != service.Id))
+                    {
+                        realObject.Services.Add(Map(service));
+                    }
+                }
+            }
             context.SaveChanges();
             
             return RedirectToAction("Object", new {id});
@@ -108,6 +167,7 @@ namespace HourlyRate.Controllers
         [HttpGet]
         public IActionResult Object(int id)
         {
+            var services = this.context.Services.ToArray();
             var realtyObject  = context
                 .Objects
                 .Include(x=>x.Images)
@@ -119,7 +179,7 @@ namespace HourlyRate.Controllers
                 return NotFound();
             }
 
-            return View(Map(realtyObject));
+            return View(Map(realtyObject,services));
 
         }
 

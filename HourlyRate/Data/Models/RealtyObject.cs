@@ -4,6 +4,10 @@ namespace HourlyRate.Data.Models
 {
     public class RealtyObject
     {
+        public RealtyObject()
+        {
+            this.Services= new HashSet<Service>();
+        }
         public int Id { get; set; }
 
         public string Description { get; set; }
