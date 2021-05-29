@@ -22,7 +22,9 @@ namespace HourlyRate.Controllers
                                                         .Include(c => c.AvailableEventTypes)
                                                         .Include(c=>c.Prices)
                                                         .Include(c=>c.Bookings)
-                                                        .Include(c=>c.Services);
+                                                        .Include(c=>c.Services)
+                                                        .Include(c=>c.PaidServices);
+
 
 
         public ObjectController(MainDbContext context)
