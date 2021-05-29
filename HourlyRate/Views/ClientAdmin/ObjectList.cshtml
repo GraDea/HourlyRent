@@ -22,9 +22,17 @@
                     <span>@booking.Address</span><br/>
                     <span><em>@booking.From.ToString("dd.MM.yy hh:mm") - @booking.To.ToString("dd.MM.yy hh:mm")</em></span>
                 </div>
-                   <div class="col-3 align-self-center">
-                                    <span>@booking.Price р. (Заказ №@booking.Id) </span>   
-                                </div>
+                <div class="col-3 align-self-center">
+                    <span>@booking.Price р. (Заказ №@booking.Id) </span>   
+                </div>
+                <div class="col-3 align-self-center">
+                    <span>Платные услуги:</span><br/>
+                    @foreach (var service in booking.PaidServices)
+                    {
+                        <span>@service</span><br/>    
+                    }
+                    
+                </div>
                 <div class="col-2 align-self-center">
                     <form asp-controller="ClientAdmin" asp-action="Cancel" asp-route-id="@booking.Id" enctype="multipart/form-data" method="post">
                                             <input type="submit" class="btn btn-info" value="Отменить"/>
