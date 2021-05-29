@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HourlyRate.Data.Models;
@@ -38,7 +39,10 @@ namespace HourlyRate.Models
         public decimal Price { get; set; }
         
         public virtual IEnumerable<string> Services { get; set; }
-        
+
+        public virtual IEnumerable<PaidServiceViewModel> PaidServices { get; set; }
+
+
         public static RealtyObjectViewModel FromRealtyObject(RealtyObject realtyObject)
         {
             return new RealtyObjectViewModel()
@@ -58,9 +62,17 @@ namespace HourlyRate.Models
                        Services = realtyObject.Services.Select(c => c.Title),
                        Images = realtyObject.Images.OrderBy(c => c.Priority).Select(c => c.Url),
                        Bookings = realtyObject.Bookings.Select(c=> new BookingViewModel(){From = c.From, To = c.To}),
-                       Price = realtyObject.Prices.FirstOrDefault()?.Amount ?? 0
+                       Price = realtyObject.Prices.FirstOrDefault()?.Amount ?? 0,
+                       PaidServices = (realtyObject.PaidServices ?? Enumerable.Empty<PaidService>()).Select(c=>new PaidServiceViewModel(){Id = c.Id, Price = c.Price, Title = c.Title})
                    };
         }
+    }
+
+    public class PaidServiceViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
     }
 
     public class BookingViewModel
