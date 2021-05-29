@@ -39,6 +39,7 @@ namespace HourlyRate.Data.Models
         public virtual ICollection<RealtyPrice> Prices { get; set; }
         
         public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<PaidService> PaidServices { get; set; }
     }
 
     public enum ObjectType
