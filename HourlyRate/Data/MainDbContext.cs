@@ -18,6 +18,7 @@ namespace HourlyRate.Data
         public DbSet<RealtyPrice> Prices { get; set; }
         public DbSet<RealtyBooking> Bookings { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<PaidService> PaidServices { get; set; }
         
 
         public DbSet<ObjectImage> Images { get; set; }
@@ -62,9 +63,22 @@ namespace HourlyRate.Data
                         .ToTable("Services")
                         .HasKey(s => s.Id);
             
+            modelBuilder.Entity<PaidService>()
+                        .ToTable("PaidServices")
+                        .HasKey(s => s.Id);
+            
             modelBuilder.Entity<RealtyObject>()
                         .HasMany(s => s.Services)
                         .WithMany(t=>t.Objects);
+            
+            modelBuilder.Entity<RealtyObject>()
+                        .HasMany(s => s.PaidServices)
+                        .WithMany(t=>t.Objects);
+            
+            
+            modelBuilder.Entity<RealtyBooking>()
+                        .HasMany(s => s.PaidServices)
+                        .WithMany(t=>t.Bookings);
             
             modelBuilder.Entity<EventType>().HasData(
                     new EventType {Id=1,Name = "Митап"},
@@ -72,6 +86,11 @@ namespace HourlyRate.Data
                     new EventType {Id=3,Name = "Конференция"},
                     new EventType {Id=4,Name = "Мастер-класс"}
                 );
+            
+            modelBuilder.Entity<PaidService>().HasData(
+                new PaidService() {Id=1,Title = "Фотограф", Price = 1000},
+                new PaidService() {Id = 2, Title = "Шоу мыльных пузырей", Price = 2000}
+            );
             
             modelBuilder.Entity<Service>().HasData(
                 new Service {Id=1,Title = "Сцена"},

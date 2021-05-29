@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
@@ -18,5 +19,7 @@ namespace HourlyRate.Data.Models
         
         [ForeignKey("ObjectId")]
         public virtual RealtyObject Object { get; set; }
+
+        public IEnumerable<PaidService> PaidServices { get; set; }
     }
 }
