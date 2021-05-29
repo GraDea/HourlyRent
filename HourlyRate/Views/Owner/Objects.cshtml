@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col text-left">
-            <div class="h2">Ваши объекты</div>
+            <div class="h2 mb-4">Ваши объекты</div>
         </div>
         <div class="col text-right" >
             @Html.ActionLink("+ДОБАВИТЬ ОБЪЕКТ", "New")
@@ -40,10 +40,10 @@
                     </div>
                     <div class="col-3" style="margin-bottom: 16px;">
                         <div class="container">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col">
-                                    @Html.ActionLink("Управление", "Object", "Owner", new {id = realEstateObject.Id})
-                                    @Html.RouteLink("Календарь", "Calendar", new {id = realEstateObject.Id})
+                                    <span class="mr-3">@Html.ActionLink("Управление", "Object", "Owner", new {id = realEstateObject.Id})</span>
+                                    <span>@Html.RouteLink("Календарь", "Calendar", new {id = realEstateObject.Id})</span>
                                 </div>
                                 
                             </div>
