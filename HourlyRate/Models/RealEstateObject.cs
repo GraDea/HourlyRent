@@ -20,11 +20,20 @@ namespace HourlyRate.Models
         public double TotalArea { get; set; }
         public decimal PriceValue{ get; set; }
         public IEnumerable<string> Options { get; set; }
+        
+        public IEnumerable<Service> Services { get; set; }
     }
 
     public class Photo
     {
         public int Id { get; set; }
         public string Url { get; set; }
+    }
+    
+    public class Service
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelected { get; set; }
     }
 }
