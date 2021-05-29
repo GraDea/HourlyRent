@@ -31,7 +31,7 @@
 
                 var isVacation = dt.Date.DayOfWeek == DayOfWeek.Sunday || dt.Date.DayOfWeek == DayOfWeek.Saturday;
                 
-                <div class="col @(isVacation ? "vacation" : "working")" style="min-height: 150px;">
+                <div class="col rounded @(isVacation ? "vacation" : "working")" style="min-height: 150px;">
                     <span class="@(isVacation ? "vacation-text" : "")">@dt.Date.Day</span>
                     @foreach (var booking in dt.Bookings)
                     {

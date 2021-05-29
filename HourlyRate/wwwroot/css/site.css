@@ -89,3 +89,5 @@ body {
   border-width: thin;
   border-style: double;
 }
+
+.hoverDiv:hover {background: #f5f5f5;}

@@ -33,7 +33,8 @@ namespace HourlyRate
             services.AddControllersWithViews()
                     .AddNewtonsoftJson(options =>
                                            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                    );
+                    )
+                    .AddRazorRuntimeCompilation();
             
             services.AddCors(options =>
                              {
