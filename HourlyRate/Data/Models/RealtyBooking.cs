@@ -20,6 +20,6 @@ namespace HourlyRate.Data.Models
         [ForeignKey("ObjectId")]
         public virtual RealtyObject Object { get; set; }
 
-        public IEnumerable<PaidService> PaidServices { get; set; }
+        public HashSet<PaidService> PaidServices { get; set; }
     }
 }
