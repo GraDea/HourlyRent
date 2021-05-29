@@ -7,6 +7,7 @@ namespace HourlyRate.Data.Models
         public RealtyObject()
         {
             this.Services= new HashSet<Service>();
+            this.PaidServices = new HashSet<PaidService>();
         }
         public int Id { get; set; }
 

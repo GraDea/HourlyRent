@@ -56,6 +56,33 @@
         }
         </ul>
     </div>
+    
+    <div>
+        <label>Платные услуги</label>
+                                <ul>
+                                @for (int i=0; i< Model.PaidServices.Count(); i++)
+                                {
+     
+                                            <li>       
+                                                            
+                                                                @if (Model.PaidServices[i].IsSelected)
+                                                                {
+                                                                    <input type="checkbox" asp-for="@Model.PaidServices[i].IsSelected" name="PaidServices[@i].IsSelected" checked="checked" />    
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" asp-for="@Model.PaidServices[i].IsSelected" name="PaidServices[@i].IsSelected" />
+                                                                }
+                                                            
+                                            <label asp-for="@Model.PaidServices[i].IsSelected">@Model.PaidServices[i].Name @Model.PaidServices[i].Price.ToString("#.##")</label>
+                                            <input type="hidden" asp-for="@Model.PaidServices[i].Id" />
+                                            <input type="hidden" asp-for="@Model.PaidServices[i].Name" />   
+                                            <input type="hidden" asp-for="@Model.PaidServices[i].Price" />   
+                                        </li>
+                                }
+                                </ul>
+    </div>
+    
     <input type="submit" value="Сохранить" class="btn btn-primary mt-2"/>
 </form>
 

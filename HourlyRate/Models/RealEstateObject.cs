@@ -23,6 +23,7 @@ namespace HourlyRate.Models
         public IEnumerable<string> Options { get; set; }
         
         public List<ServiceModel> Services { get; set; }
+        public List<PaidServiceModel> PaidServices { get; set; }
     }
 
     public class Photo
@@ -36,5 +37,10 @@ namespace HourlyRate.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
+    }
+
+    public class PaidServiceModel : ServiceModel
+    {
+        public decimal Price { get; set; }
     }
 }

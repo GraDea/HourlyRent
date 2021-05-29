@@ -27,7 +27,7 @@ namespace HourlyRate.Controllers
         public IActionResult ObjectList()
         {
             var result = new List<BookingResult>();
-            var bookings =  this.context.Bookings.Include(b=>b.Object).Include(b=>b.Object.Images).Include(b=>b.Client)
+            var bookings =  this.context.Bookings.Include(b=>b.Object).Include(b=>b.Object.Images).Include(b=>b.Client).Include(b=>b.PaidServices)
                                 .ToList();
             foreach (var booking in bookings)
             {

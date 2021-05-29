@@ -31,12 +31,14 @@ namespace HourlyRate.Controllers
         public IActionResult Objects()
         {
             var services = this.context.Services.ToArray();
+            var paidServices = this.context.PaidServices.ToArray();
             var realtyObjects = context
                 .Objects
                 .Include(x => x.Images)
                 .Include(x=>x.Services)
                 .Include(x=>x.Prices)
-                .Select(o => Map(o,services)).ToArray();
+                .Include(x=>x.PaidServices)
+                .Select(o => Map(o,services,paidServices)).ToArray();
             
             return View(realtyObjects);
         }
@@ -46,6 +48,7 @@ namespace HourlyRate.Controllers
         {
             var realEstateObject = new RealEstateObject();
             realEstateObject.Services = this.context.Services.Select(Map).ToList();
+            realEstateObject.PaidServices = this.context.PaidServices.Select(Map).ToList();
             return View(realEstateObject);
         }
 
@@ -58,6 +61,13 @@ namespace HourlyRate.Controllers
                 foreach (var service in realEstateObject.Services.Where(s=>s.IsSelected))
                 {
                     realObject.Entity.Services.Add(Map(service));
+                }
+            }
+            if (realEstateObject.PaidServices != null)
+            {
+                foreach (var service in realEstateObject.PaidServices.Where(s=>s.IsSelected))
+                {
+                    realObject.Entity.PaidServices.Add(Map(service));
                 }
             }
             realObject.Entity.Prices = new List<RealtyPrice>(){new RealtyPrice()
@@ -76,6 +86,27 @@ namespace HourlyRate.Controllers
                        Title = service.Name
                    };
         }
+        
+        private static PaidService Map(PaidServiceModel service)
+        {
+            return new PaidService()
+                   {
+                       Id = service.Id,
+                       Title = service.Name,
+                       Price = service.Price
+                   };
+        }
+        
+        private static PaidServiceModel Map(PaidService service)
+        {
+            return new PaidServiceModel()
+                   {
+                       Id = service.Id,
+                       Name = service.Title,
+                       Price = service.Price
+                   };
+        }
+        
         private static ServiceModel Map(Service service)
         {
             return new ServiceModel()
@@ -95,6 +126,17 @@ namespace HourlyRate.Controllers
                    };
         }
         
+        private static PaidServiceModel Map(PaidService service, bool isSelected)
+        {
+            return new PaidServiceModel()
+                   {
+                       Id = service.Id,
+                       Name = service.Title,
+                       Price = service.Price,
+                       IsSelected = isSelected
+                   };
+        }
+        
         private static RealtyObject Map(RealEstateObject realEstateObject)
         {
             return new RealtyObject()
@@ -108,7 +150,7 @@ namespace HourlyRate.Controllers
             };
         }
         
-        private static RealEstateObject Map(RealtyObject realObject, Service[] services)
+        private static RealEstateObject Map(RealtyObject realObject, Service[] services, PaidService[] paidServices)
         {
             return new RealEstateObject
             {
@@ -123,7 +165,8 @@ namespace HourlyRate.Controllers
                 Capacity = realObject.Capacity,
                 TotalArea = realObject.TotalSpace,
                 Options = realObject.Services.Select(x=>x.Title).ToArray(),
-                Services = services.Select(s=>Map(s, realObject.Services.Any(srv=>srv.Id == s.Id))).ToList()
+                Services = services.Select(s=>Map(s, realObject.Services.Any(srv=>srv.Id == s.Id))).ToList(),
+                PaidServices = paidServices.Select(s=>Map(s, realObject.PaidServices.Any(srv=>srv.Id == s.Id))).ToList()
             };
         }
 
@@ -159,6 +202,26 @@ namespace HourlyRate.Controllers
                     }
                 }
             }
+            
+            if (realEstateObject.PaidServices != null)
+            {
+                foreach (var paidService in realObject.PaidServices)
+                {
+                    if (realEstateObject.PaidServices.Where(s=>s.IsSelected).All(s => s.Id != paidService.Id))
+                    {
+                        realObject.PaidServices.Remove(paidService);
+                    }
+                }
+                
+                foreach (var paidService in realEstateObject.PaidServices.Where(s=>s.IsSelected))
+                {
+                    if (realObject.PaidServices.All(s => s.Id != paidService.Id))
+                    {
+                        realObject.PaidServices.Add(Map(paidService));
+                    }
+                }
+            }
+            
             context.SaveChanges();
             
             return RedirectToAction("Object", new {id});
@@ -168,18 +231,20 @@ namespace HourlyRate.Controllers
         public IActionResult Object(int id)
         {
             var services = this.context.Services.ToArray();
+            var paidServices = this.context.PaidServices.ToArray();
             var realtyObject  = context
                 .Objects
                 .Include(x=>x.Images)
                 .Include(x=>x.Services)
                 .Include(x=>x.Prices)
+                .Include(x=>x.PaidServices)
                 .SingleOrDefault(x => x.Id == id);
             if (realtyObject == null)
             {
                 return NotFound();
             }
 
-            return View(Map(realtyObject,services));
+            return View(Map(realtyObject,services,paidServices));
 
         }
 
