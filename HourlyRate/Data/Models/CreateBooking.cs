@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HourlyRate.Data.Models
@@ -9,6 +10,8 @@ namespace HourlyRate.Data.Models
         public int ClientId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+        
+        public List<int> PaidServices { get; set; }
     }
     
     public class CreateBookingResult
@@ -48,10 +51,14 @@ namespace HourlyRate.Data.Models
                        Address = booking.Object.Address,
                        To = booking.To,
                        ClientName = booking.Client.Name,
-                       Image = booking.Object.Images.OrderByDescending(i=>i.Priority).FirstOrDefault()?.Url,
-                       Description = booking.Object.Description
+                       Image = booking.Object.Images?.OrderByDescending(i=>i.Priority).FirstOrDefault()?.Url,
+                       Description = booking.Object.Description,
+                       PaidServices = booking.PaidServices?.Select(p=>p.Title)
                    };
         }
+
+
+        public IEnumerable<string> PaidServices { get; set; }
 
 
         public string Description { get; set; }
