@@ -173,7 +173,7 @@ namespace HourlyRate.Controllers
         [HttpPost]
         public IActionResult Object([FromRoute]int id, RealEstateObject realEstateObject)
         {
-            var realObject = context.Objects.Include(s=>s.Services).Single(x => x.Id == id);
+            var realObject = context.Objects.Include(s=>s.Services).Include(s=>s.PaidServices).Single(x => x.Id == id);
             realObject.Description = realEstateObject.Description;
             realObject.Title = realEstateObject.Title;
             realObject.Address = realEstateObject.Address;
