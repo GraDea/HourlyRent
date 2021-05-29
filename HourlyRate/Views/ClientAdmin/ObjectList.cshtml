@@ -12,12 +12,14 @@
     @{
         foreach (var booking in Model)
         {
-            <div class="row">
+            <div class="row border border-white m-3">
              
-                <div class="col-8">
-                    <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
-                    <span><strong>@booking.Title</strong></span>
-                    <span>@booking.Address</span>
+                <div class="col-2">
+                     <img style="width: 150px;" src="@booking.Image" alt="фото объекта">
+                </div>
+                <div class="col-6">
+                    <span><strong>@booking.Title</strong></span><br/>
+                    <span>@booking.Address</span><br/>
                     <span><em>@booking.From.ToString("dd.MM.yy hh:mm") - @booking.To.ToString("dd.MM.yy hh:mm")</em></span>
                 </div>
                    <div class="col-3 align-self-center">
