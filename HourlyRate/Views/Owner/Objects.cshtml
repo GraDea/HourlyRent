@@ -40,11 +40,12 @@
                     </div>
                     <div class="col-3" style="margin-bottom: 16px;">
                         <div class="container">
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col">
                                     @Html.ActionLink("Управление", "Object", "Owner", new {id = realEstateObject.Id})
                                     @Html.RouteLink("Календарь", "Calendar", new {id = realEstateObject.Id})
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="row" ><img style="width: 240px" src="@realEstateObject.ThumbnailUrl" alt=""/></div>
